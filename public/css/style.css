@@ -1,0 +1,142 @@
+:root {
+    --primary-green: #339933;
+}
+
+/* Color utilities */
+.bg-primary-green {
+    background-color: var(--primary-green);
+}
+
+.text-primary-green {
+    color: var(--primary-green);
+}
+
+.border-primary-green {
+    border-color: var(--primary-green);
+}
+
+.hover\:bg-primary-green:hover {
+    background-color: var(--primary-green);
+}
+
+.hover\:text-primary-green:hover {
+    color: var(--primary-green);
+}
+
+/* Animations */
+.hero-animation {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(51, 153, 51, 0.2);
+}
+
+/* Navigation link styles */
+.nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-green);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Default navbar (transparent with white text) */
+#navbar {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#logo-text,
+.nav-link-text,
+#mobile-menu-icon {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-link-text:hover {
+    color: #4CAF50;
+}
+
+/* Scrolled navigation (white background with dark text) */
+nav.scrolled {
+    background-color: white !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+nav.scrolled #logo-text {
+    color: var(--primary-green);
+    text-shadow: none;
+}
+
+nav.scrolled .nav-link-text {
+    color: #374151;
+    text-shadow: none;
+}
+
+nav.scrolled .nav-link-text:hover {
+    color: var(--primary-green);
+}
+
+nav.scrolled #mobile-menu-icon {
+    color: #374151;
+    text-shadow: none;
+}
+
+nav.scrolled #mobile-menu-icon:hover {
+    color: var(--primary-green);
+}
+
+/* ---------- About Us ---------- */
+.about-text,
+.about-photo {
+    will-change: transform, opacity;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .8s ease, transform .8s ease;
+}
+
+.about-text.animate,
+.about-photo.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Mobile menu */
+.mobile-menu {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+.mobile-menu.active {
+    transform: translateX(0);
+}
+

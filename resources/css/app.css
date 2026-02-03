@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import 'tailwindcss';
+
+/* Tailwind v4 CSS-based Configuration */
+@theme {
+  /* Custom Colors */
+  --color-primary: #339933;
+  --color-primary-light: #4CAF50;
+  --color-primary-dark: #2E7D32;
+  --color-primary-green: #339933;
+
+  /* Custom Font Families */
+  --font-outfit: 'Outfit', sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+
+  /* Custom Font Sizes (optional) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
+  --text-9xl: 8rem;
+
+  /* Custom Font Weights */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+}
+
+/* Custom Base Styles */
+@layer base {
+
+  /* Set default font for entire site */
+  html {
+    font-family: var(--font-jakarta);
+  }
+
+  /* Heading styles with Outfit */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-outfit);
+    font-weight: 700;
+    /* bold */
+  }
+
+  /* Better default line heights for accessibility */
+  body {
+    line-height: 1.6;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+
+  /* Color Utilities */
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .text-primary-green {
+    color: var(--color-primary-green);
+  }
+
+  .bg-primary-green {
+    background-color: var(--color-primary-green);
+  }
+
+  .border-primary-green {
+    border-color: var(--color-primary-green);
+  }
+
+  /* Font Family Utilities */
+  .font-outfit {
+    font-family: var(--font-outfit);
+  }
+
+  .font-jakarta {
+    font-family: var(--font-jakarta);
+  }
+
+  /* Accessibility Utilities */
+  .text-accessibility {
+    font-size: 18px;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+
+  .leading-relaxed {
+    line-height: 1.625;
+  }
+
+  .leading-loose {
+    line-height: 2;
+  }
+}

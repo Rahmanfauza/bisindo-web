@@ -3,18 +3,26 @@
 @section('title', 'Abjad Bisindo - Penerjemah Isyarat')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 pb-20 font-jakarta">
-    <div class="max-w-4xl mx-auto px-4 pt-8">
+<div class="min-h-screen bg-paper text-pencil pb-20 font-patrick relative overflow-hidden">
+    <!-- Decorative Background -->
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-20 overflow-hidden">
+        <svg class="absolute top-10 right-20 w-48 h-48 text-pencil transform rotate-12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" d="M36.4,-57.4C46.5,-51.2,53.4,-39.4,61.9,-26.6C70.4,-13.8,80.5,0,78.2,12.2C75.8,24.4,61,35.1,47.2,43.2C33.4,51.4,20.6,57.2,5.5,54.5C-9.6,51.8,-27.1,40.7,-42.3,31C-57.5,21.3,-70.4,13,-73.5,1.8C-76.6,-9.4,-69.9,-23.4,-59.8,-33.5C-49.8,-43.6,-36.5,-49.7,-24,-54.5C-11.5,-59.2,26.3,-63.6,36.4,-57.4Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 pt-8 relative z-10">
 
         <!-- Header Section -->
-        <div class="mb-8 text-center">
-            <h1 class="text-2xl font-bold text-green-800 mb-2 font-outfit">Abjad Bisindo</h1>
-            <p class="text-gray-500 leading-relaxed text-sm">
+        <div class="mb-10 text-center transform -rotate-1">
+            <h1 class="text-4xl font-bold text-pencil mb-2 font-kalam">Abjad Bisindo</h1>
+            <p class="text-pencil leading-relaxed text-lg bg-gray-100 p-2 border-2 border-dashed border-pencil rounded-wobbly inline-block transform rotate-1">
                 Arahkan kamera ke tangan Anda untuk menerjemahkan abjad Bisindo.
             </p>
+            <br>
             <a href="{{ route('translator') }}"
-                class="inline-flex items-center gap-2 mt-4 text-green-600 hover:text-green-700 font-medium text-sm">
-                <i class="fas fa-arrow-left"></i> Kembali ke Menu
+                class="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-white border-[3px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle text-pencil font-bold text-xl font-kalam transition cursor-pointer active:shadow-none active:translate-y-1 active:-rotate-2">
+                <i class="fas fa-arrow-left text-correction"></i> Kembali ke Menu
             </a>
         </div>
 
@@ -22,7 +30,7 @@
         <div class="flex flex-col items-center">
 
             <!-- Video/Canvas Container -->
-            <div class="relative w-[640px] h-[480px] bg-black rounded-xl overflow-hidden shadow-lg mb-6 max-w-full">
+            <div class="relative w-[640px] h-[480px] bg-paper rounded-wobbly-lg overflow-hidden border-[6px] border-pencil shadow-wobbly-lg mb-8 max-w-full transform rotate-1 transition">
                 <video id="input_video"
                     class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-cover"></video>
                 <canvas id="output_canvas" width="640" height="480"
@@ -31,61 +39,64 @@
 
             <!-- Status Indicator -->
             <div id="status"
-                class="mb-6 px-6 py-3 rounded-lg font-bold text-center w-full max-w-[600px] bg-gray-200 text-gray-700">
-                Initializing...
+                class="mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-gray-200 text-pencil transform -rotate-1">
+                Menyala...
             </div>
 
             <!-- Prediction Result -->
             <div id="prediction-container"
-                class="bg-white p-6 rounded-2xl shadow-md w-full max-w-[640px] text-center mb-6 transition-all">
-                <div class="flex justify-between items-center mb-4">
+                class="bg-white p-6 md:p-8 border-[4px] border-pencil rounded-wobbly-lg shadow-wobbly-lg w-full max-w-[640px] text-center mb-8 transition-all transform rotate-1 relative">
+                <!-- Session Tape Decoration -->
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-gray-200 border-2 border-gray-300 transform -rotate-2 z-20 shadow-sm opacity-80" style="border-radius: 2px 2px 3px 2px / 255px 15px 225px 15px;"></div>
+                
+                <div class="flex justify-between items-center mb-6">
                     <div class="text-left">
-                        <p class="text-xs text-gray-400 uppercase tracking-wider font-bold">Terdeteksi</p>
-                        <span id="prediction-text" class="block text-6xl font-black text-gray-800">-</span>
-                        <div id="confidence-text" class="text-gray-400 text-sm font-medium mt-1">Confidence: 0%</div>
+                        <p class="text-xl text-pencil font-kalam underline decoration-wavy decoration-correction decoration-2 mb-1">Terdeteksi</p>
+                        <span id="prediction-text" class="block text-7xl font-kalam font-bold text-pencil transform rotate-2 transition-transform duration-300 scale-100">-</span>
+                        <div id="confidence-text" class="text-pencil font-patrick text-md font-bold mt-2 bg-gray-100 px-2 py-1 border-2 border-dashed border-pencil rounded-wobbly inline-block transform -rotate-2">Confidence: 0%</div>
                     </div>
 
                     <div class="text-right">
-                        <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Status</p>
+                        <p class="text-xl text-pencil font-kalam underline decoration-wavy decoration-correction decoration-2 mb-2">Status</p>
                         <div id="status-indicator"
-                            class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
+                            class="inline-block px-4 py-1 border-2 border-pencil rounded-wobbly text-lg font-patrick font-bold bg-postit text-pencil shadow-sm transform rotate-2">
                             Menunggu...
                         </div>
                     </div>
                 </div>
 
-                <hr class="border-gray-100 my-4">
+                <div class="h-1 bg-pencil w-full my-6 rounded-wobbly transform -rotate-1"></div>
 
                 <!-- Sentence Construction -->
-                <div class="text-left">
-                    <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-2">Kalimat (Hasil Terjemahan)
+                <div class="text-left mt-6">
+                    <p class="text-2xl text-pencil font-kalam font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-comment-dots text-correction transform -rotate-12 text-3xl"></i> Kalimat 
                     </p>
                     <div
-                        class="bg-gray-50 border border-gray-200 rounded-xl p-4 min-h-[80px] flex flex-col justify-between">
-                        <p id="sentence-text" class="text-lg text-gray-700 font-medium break-words leading-relaxed">
-                            <span class="text-gray-400 italic">Belum ada kata...</span>
+                        class="bg-paper border-[3px] border-pencil rounded-wobbly p-5 min-h-[100px] flex flex-col justify-between shadow-inner transform -rotate-1">
+                        <p id="sentence-text" class="text-2xl text-pencil font-kalam font-bold break-words leading-relaxed tracking-wide min-h-[40px]">
+                            <span class="text-gray-400 italic font-patrick font-normal text-lg">Belum ada kata...</span>
                         </p>
 
-                        <div class="flex gap-2 justify-end mt-4">
+                        <div class="flex flex-wrap gap-3 justify-end mt-6">
                             <button onclick="clearSentence()"
-                                class="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                class="px-4 py-2 bg-white border-2 border-pencil text-pencil hover:bg-correction hover:text-white rounded-wobbly shadow-wobbly-hover transform hover-jiggle transition cursor-pointer active:shadow-none active:translate-y-1 active:translate-x-1"
                                 title="Hapus Kalimat">
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-trash-alt text-lg"></i>
                             </button>
-                            <!-- NEW BUTTONS -->
                             <button onclick="backspace()"
-                                class="p-2 text-gray-500 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+                                class="px-4 py-2 bg-white border-2 border-pencil text-pencil hover:bg-postit rounded-wobbly shadow-wobbly-hover transform hover-jiggle transition cursor-pointer active:shadow-none active:translate-y-1 active:translate-x-1"
                                 title="Hapus Satu Huruf">
-                                <i class="fas fa-backspace"></i>
+                                <i class="fas fa-backspace text-lg"></i>
                             </button>
                             <button onclick="addSpace()"
-                                class="p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                                class="px-5 py-2 bg-white border-[3px] border-pencil text-pencil hover:bg-postit rounded-wobbly shadow-wobbly-hover transform hover-jiggle transition font-kalam font-bold cursor-pointer active:shadow-none active:translate-y-1 active:translate-x-1 text-lg flex items-center gap-2"
                                 title="Tambah Spasi">
-                                <i class="fas fa-ruler-horizontal"></i> Spasi
+                                <i class="fas fa-level-down-alt transform rotate-90"></i> Spasi
                             </button>
 
                             <button onclick="speakSentence()"
-                                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-bold text-sm shadow-md transition-transform active:scale-95 flex items-center gap-2">
+                                class="px-6 py-2 bg-correction border-[3px] border-pencil text-white rounded-wobbly shadow-wobbly font-kalam font-bold text-xl hover-jiggle transition transform cursor-pointer active:shadow-none active:translate-y-1 active:translate-x-1 flex items-center gap-2 ml-2 tracking-wide">
                                 <i class="fas fa-volume-up"></i> Putar Suara
                             </button>
                         </div>
@@ -146,12 +157,12 @@
                 // UPDATE: Point to the public model path
                 model = await tf.loadLayersModel('/models/bisindo/model.json');
 
-                statusDiv.className = 'mb-6 px-6 py-3 rounded-lg font-bold text-center w-full max-w-[600px] bg-green-100 text-green-800';
+                statusDiv.className = 'mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-postit text-pencil transform -rotate-1';
                 statusDiv.innerText = 'Model loaded! Starting camera...';
                 startCamera();
             } catch (error) {
                 console.error(error);
-                statusDiv.className = 'mb-6 px-6 py-3 rounded-lg font-bold text-center w-full max-w-[600px] bg-red-100 text-red-800';
+                statusDiv.className = 'mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-correction text-white transform rotate-1';
                 statusDiv.innerText = 'Error loading model: ' + error.message;
             }
         }
@@ -223,8 +234,8 @@
                     }
 
                     // Draw Landmarks (Visuals can stay true to original or swap, let's keep visual generic)
-                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, { color: '#00FF00', lineWidth: 5 });
-                    drawLandmarks(canvasCtx, landmarks, { color: '#FF0000', lineWidth: 2 });
+                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, { color: '#2d2d2d', lineWidth: 5 });
+                    drawLandmarks(canvasCtx, landmarks, { color: '#ff4d4d', lineWidth: 3, radius: 4 });
                 }
 
                 if (handsDetected) {
@@ -242,7 +253,7 @@
                 // If no hands, clear local buffer to avoid stuck predictions
                 // But we don't clear sentence
                 statusIndicator.innerText = "Tidak ada tangan";
-                statusIndicator.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500";
+                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-patrick font-bold bg-white text-pencil shadow-sm transform -rotate-1";
 
                 // Partially decay queue or clear it? Let's clear to reset smoothing.
                 predictionsQueue = [];
@@ -259,7 +270,7 @@
                         hasAddedAutoSpace = true; // Lock
                         // Visual Feedback could be added here
                         statusIndicator.innerText = "Auto Spasi";
-                        statusIndicator.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-500";
+                        statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam text-white font-bold bg-correction shadow-sm transform rotate-2 hover-jiggle";
                     }
                 }
             } else {
@@ -311,8 +322,8 @@
 
                 // Visual Update for Detection
                 predictionText.innerText = smoothedLabel;
-                predictionText.classList.add('text-green-600');
-                predictionText.classList.remove('text-gray-800');
+                predictionText.classList.add('text-correction', 'scale-110');
+                predictionText.classList.remove('text-pencil', 'scale-100');
                 confidenceText.innerText = `Confidence: ${confidencePct}%`;
 
                 // 3. Stabilization for Sentence Construction
@@ -326,10 +337,10 @@
                 // Update Status
                 if (stableCounter < STABILIZATION_FRAMES) {
                     statusIndicator.innerText = "Memverifikasi...";
-                    statusIndicator.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700";
+                    statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-postit text-pencil shadow-sm transform rotate-1";
                 } else {
                     statusIndicator.innerText = "Terkonfirmasi";
-                    statusIndicator.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700";
+                    statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam font-bold bg-pencil text-white shadow-sm transform -rotate-2 hover-jiggle scale-110 transition";
 
                     // COMMIT TO SENTENCE
                     // Trigger only ONCE when threshold is reached
@@ -341,12 +352,12 @@
             } else {
                 // Low Confidence
                 predictionText.innerText = "...";
-                predictionText.classList.remove('text-green-600');
-                predictionText.classList.add('text-gray-800');
+                predictionText.classList.remove('text-correction', 'scale-110');
+                predictionText.classList.add('text-pencil', 'scale-100');
                 confidenceText.innerText = `Low Confidence`;
 
                 statusIndicator.innerText = "Buram";
-                statusIndicator.className = "inline-block px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500";
+                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-gray-100 text-pencil shadow-sm transform rotate-1 opacity-80";
 
                 predictionsQueue = [];
                 stableCounter = 0;

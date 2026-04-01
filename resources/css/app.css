@@ -1,19 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Patrick+Hand&display=swap');
 @import 'tailwindcss';
 
 /* Tailwind v4 CSS-based Configuration */
 @theme {
-  /* Custom Colors */
-  --color-primary: #339933;
-  --color-primary-light: #4CAF50;
-  --color-primary-dark: #2E7D32;
+  /* Hand-Drawn Colors */
+  --color-paper: #fdfbf7;
+  --color-pencil: #2d2d2d;
+  --color-erased: #e5e0d8;
+  --color-correction: #ff4d4d;
+  --color-ballpoint: #2d5da1;
+  --color-postit: #fff9c4;
+
+  /* Keep legacy primary green just in case */
   --color-primary-green: #339933;
 
-  /* Custom Font Families */
-  --font-outfit: 'Outfit', sans-serif;
-  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  /* Font Families */
+  --font-kalam: 'Kalam', cursive;
+  --font-patrick: 'Patrick Hand', cursive;
 
-  /* Custom Font Sizes (optional) */
+  /* Custom Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -28,7 +33,7 @@
   --text-8xl: 6rem;
   --text-9xl: 8rem;
 
-  /* Custom Font Weights */
+  /* Font Weights */
   --font-weight-thin: 100;
   --font-weight-extralight: 200;
   --font-weight-light: 300;
@@ -42,75 +47,65 @@
 
 /* Custom Base Styles */
 @layer base {
-
-  /* Set default font for entire site */
   html {
-    font-family: var(--font-jakarta);
+    font-family: var(--font-patrick);
+    color: var(--color-pencil);
   }
 
-  /* Heading styles with Outfit */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-outfit);
-    font-weight: 700;
-    /* bold */
-  }
-
-  /* Better default line heights for accessibility */
   body {
+    background-color: var(--color-paper);
+    background-image: radial-gradient(var(--color-erased) 1px, transparent 1px);
+    background-size: 24px 24px;
     line-height: 1.6;
+  }
+
+  /* Heading styles with Kalam */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-kalam);
+    font-weight: 700;
   }
 }
 
 /* Custom Utilities */
 @layer utilities {
+  .text-primary-green { color: var(--color-primary-green); }
+  .bg-primary-green { background-color: var(--color-primary-green); }
+  .border-primary-green { border-color: var(--color-primary-green); }
 
-  /* Color Utilities */
-  .text-primary {
-    color: var(--color-primary);
+  /* Hand-Drawn Utilities */
+  .font-kalam { font-family: var(--font-kalam); }
+  .font-patrick { font-family: var(--font-patrick); }
+  
+  .bg-paper { background-color: var(--color-paper); }
+  .bg-postit { background-color: var(--color-postit); }
+  .text-pencil { color: var(--color-pencil); }
+  .text-correction { color: var(--color-correction); }
+  .border-pencil { border-color: var(--color-pencil); }
+  
+  .rounded-wobbly { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+  .rounded-wobbly-md { border-radius: 45px 15px 35px 5px / 15px 35px 15px 45px; }
+  
+  .shadow-wobbly { box-shadow: 4px 4px 0px 0px #2d2d2d; }
+  .shadow-wobbly-lg { box-shadow: 8px 8px 0px 0px #2d2d2d; }
+  .shadow-wobbly-hover { box-shadow: 2px 2px 0px 0px #2d2d2d; }
+
+  .hover-jiggle {
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .hover-jiggle:hover {
+    transform: rotate(-1deg) translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px #2d2d2d;
+  }
+  .hover-jiggle:active {
+    transform: rotate(-1deg) translate(4px, 4px);
+    box-shadow: none;
   }
 
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
-
-  .text-primary-green {
-    color: var(--color-primary-green);
-  }
-
-  .bg-primary-green {
-    background-color: var(--color-primary-green);
-  }
-
-  .border-primary-green {
-    border-color: var(--color-primary-green);
-  }
-
-  /* Font Family Utilities */
-  .font-outfit {
-    font-family: var(--font-outfit);
-  }
-
-  .font-jakarta {
-    font-family: var(--font-jakarta);
-  }
-
-  /* Accessibility Utilities */
   .text-accessibility {
     font-size: 18px;
     line-height: 1.6;
     letter-spacing: 0.01em;
   }
-
-  .leading-relaxed {
-    line-height: 1.625;
-  }
-
-  .leading-loose {
-    line-height: 2;
-  }
+  .leading-relaxed { line-height: 1.625; }
+  .leading-loose { line-height: 2; }
 }

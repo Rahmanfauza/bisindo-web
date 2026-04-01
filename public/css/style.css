@@ -1,5 +1,5 @@
 :root {
-    --primary-green: #339933;
+    --primary-green: #ff4d4d;
 }
 
 /* Color utilities */
@@ -46,8 +46,8 @@
 }
 
 .card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(51, 153, 51, 0.2);
+    transform: rotate(-1deg) translate(-2px, -2px);
+    box-shadow: var(--shadow-wobbly-lg);
 }
 
 /* Navigation link styles */
@@ -77,44 +77,48 @@
     -webkit-backdrop-filter: blur(10px);
 }
 
-#logo-text,
+#logo-text {
+    color: var(--color-pencil);
+}
+
 .nav-link-text,
 #mobile-menu-icon {
-    color: white;
+    color: #ff4d4d;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .nav-link-text:hover {
-    color: #4CAF50;
+    color: var(--color-correction);
 }
 
 /* Scrolled navigation (white background with dark text) */
 nav.scrolled {
-    background-color: white !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-paper) !important;
+    box-shadow: var(--shadow-wobbly);
+    border-bottom: 3px solid var(--color-pencil);
 }
 
 nav.scrolled #logo-text {
-    color: var(--primary-green);
+    color: var(--color-pencil);
     text-shadow: none;
 }
 
 nav.scrolled .nav-link-text {
-    color: #374151;
+    color: var(--color-pencil);
     text-shadow: none;
 }
 
 nav.scrolled .nav-link-text:hover {
-    color: var(--primary-green);
+    color: var(--color-correction);
 }
 
 nav.scrolled #mobile-menu-icon {
-    color: #374151;
+    color: var(--color-pencil);
     text-shadow: none;
 }
 
 nav.scrolled #mobile-menu-icon:hover {
-    color: var(--primary-green);
+    color: var(--color-correction);
 }
 
 /* ---------- About Us ---------- */
@@ -131,12 +135,13 @@ nav.scrolled #mobile-menu-icon:hover {
     opacity: 1;
     transform: translateY(0);
 }
+
 /* Mobile menu */
 .mobile-menu {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
 }
+
 .mobile-menu.active {
     transform: translateX(0);
 }
-

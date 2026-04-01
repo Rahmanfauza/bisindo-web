@@ -67,36 +67,36 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-paper text-pencil font-patrick overflow-x-hidden">
 
     <!-- ===== HEADER / NAVBAR ===== -->
-    <header class="bg-white shadow-md sticky top-0 z-10">
+    <header class="bg-paper border-b-4 border-pencil shadow-wobbly sticky top-0 z-50">
         <nav class="w-full px-4 py-3">
             <div class="flex justify-center items-center gap-6">
 
                 <a href="{{ route('dashboard') }}"
-                    class="flex flex-col items-center {{ Route::is('dashboard') ? 'text-green-600' : 'text-gray-500' }} text-sm hover:text-green-600 transition">
-                    <i class="fas fa-home text-lg"></i>
-                    <span>Beranda</span>
+                    class="flex flex-col items-center {{ Route::is('dashboard') ? 'text-correction transform -rotate-2' : 'text-pencil' }} text-sm hover:text-correction hover-jiggle transition group">
+                    <i class="fas fa-home text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-kalam font-bold text-lg">Beranda</span>
                 </a>
 
                 <a href="{{ route('translator') }}"
-                    class="flex flex-col items-center {{ Route::is('translator') ? 'text-green-600' : 'text-gray-500' }} text-sm hover:text-green-600 transition">
-                    <i class="fas fa-language text-lg"></i>
-                    <span>Terjemahkan</span>
+                    class="flex flex-col items-center {{ Route::is('translator') ? 'text-correction transform rotate-2' : 'text-pencil' }} text-sm hover:text-correction hover-jiggle transition group">
+                    <i class="fas fa-language text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-kalam font-bold text-lg">Terjemahkan</span>
                 </a>
 
                 <a href="{{ route('dictionary') }}"
-                    class="flex flex-col items-center {{ Route::is('dictionary') ? 'text-green-600' : 'text-gray-500' }} text-sm hover:text-green-600 transition">
-                    <i class="fas fa-book text-lg"></i>
-                    <span>Kamus</span>
+                    class="flex flex-col items-center {{ Route::is('dictionary') ? 'text-correction transform -rotate-1' : 'text-pencil' }} text-sm hover:text-correction hover-jiggle transition group">
+                    <i class="fas fa-book text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-kalam font-bold text-lg">Kamus</span>
                 </a>
 
                 <!-- Profile Dropdown -->
                 <a href="{{ route('profile') }}" id="profileMenuBtn"
-                    class="flex flex-col items-center {{ Route::is('profile') ? 'text-green-600' : 'text-gray-500' }} text-sm focus:outline-none hover:text-green-600 transition">
-                    <i class="fas fa-user text-lg"></i>
-                    <span>Profil</span>
+                    class="flex flex-col items-center {{ Route::is('profile') ? 'text-correction transform rotate-2' : 'text-pencil' }} text-sm focus:outline-none hover:text-correction hover-jiggle transition group">
+                    <i class="fas fa-user text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-kalam font-bold text-lg">Profil</span>
                 </a>
             </div>
         </nav>
@@ -109,10 +109,16 @@
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="bg-green-700 text-white py-6">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <p class="text-sm mb-2">&copy; 2023 IsyaraLearn. All rights reserved.</p>
-            <p class="text-green-100 text-sm">"Tangan Bicara, Hati Mendengar"</p>
+    <footer class="bg-paper text-pencil py-8 border-t-[4px] border-pencil shadow-wobbly mt-10 relative">
+        <!-- Sticky tape decoration -->
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-gray-200 border-2 border-gray-300 transform rotate-3 z-10 shadow-sm opacity-70"
+            style="border-radius: 2px 2px 3px 2px / 255px 15px 225px 15px;"></div>
+
+        <div class="max-w-7xl mx-auto px-6 text-center transform -rotate-1">
+            <p class="font-patrick text-lg mb-2 font-bold opacity-80">&copy; 2023 IsyaraLearn. Hak cipta dilindungi.</p>
+            <p
+                class="text-correction font-kalam text-2xl underline decoration-wavy underline-offset-4 leading-relaxed mt-2">
+                "Tangan Bicara, Hati Mendengar"</p>
         </div>
     </footer>
 
@@ -144,37 +150,78 @@
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* SweetAlert2 Hand-Drawn Theme Overrides for Toasts */
+        .swal2-popup.swal2-toast {
+            background-color: #fdfbf7 !important;
+            border: 3px solid #2d2d2d !important;
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px !important;
+            box-shadow: 4px 4px 0px 0px #2d2d2d !important;
+            color: #2d2d2d !important;
+            padding: 1rem 1.25rem !important;
+            transform: rotate(1deg) !important;
+            margin-top: 1rem !important;
+        }
+
+        .swal2-popup.swal2-toast .swal2-title {
+            font-family: 'Kalam', cursive !important;
+            font-weight: 700 !important;
+            font-size: 1.25rem !important;
+            color: #2d2d2d !important;
+            margin-bottom: 0.25rem !important;
+        }
+
+        .swal2-popup.swal2-toast .swal2-html-container {
+            font-family: 'Patrick Hand', cursive !important;
+            font-size: 1rem !important;
+            color: #2d2d2d !important;
+            margin: 0 !important;
+        }
+
+        .swal2-popup.swal2-toast .swal2-timer-progress-bar {
+            background-color: #ff4d4d !important;
+        }
+
+        .swal2-popup.swal2-toast .swal2-icon {
+            border: none !important;
+            margin: 0 0.75rem 0 0 !important;
+            width: auto !important;
+            height: auto !important;
+        }
+    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Shared Hand-Drawn Toast Configuration
+            const toastConfig = {
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                customClass: {
+                    icon: 'no-border'
+                }
+            };
+
             @if(session('success'))
                 Swal.fire({
-                    iconHtml: "{{ str_contains(strtolower(session('success')), 'keluar') ? '👋' : '👌' }}",
+                    ...toastConfig,
+                    iconHtml: "<span class='text-3xl transform {{ str_contains(strtolower(session('success')), 'keluar') ? '-rotate-12' : 'rotate-12' }} inline-block'>{{ str_contains(strtolower(session('success')), 'keluar') ? '👋' : '👌' }}</span>",
                     title: 'Berhasil!',
                     text: "{{ session('success') }}",
                     timer: 3000,
-                    showConfirmButton: false,
-                    toast: true,
-                    position: 'top',
-                    color: "{{ str_contains(strtolower(session('success')), 'keluar') ? '#EF4444' : '#10B981' }}",
-                    customClass: {
-                        icon: 'no-border'
-                    }
                 });
             @endif
 
             @if(session('error'))
                 Swal.fire({
-                    iconHtml: '✋',
+                    ...toastConfig,
+                    iconHtml: '<span class="text-3xl transform -rotate-12 inline-block">✋</span>',
                     title: 'Gagal!',
                     text: "{{ session('error') }}",
-                    toast: true,
-                    position: 'top',
-                    customClass: {
-                        icon: 'no-border'
-                    }
+                    timer: 5000,
                 });
             @endif
-    });
+        });
     </script>
 
     <!-- Stack for child view scripts -->

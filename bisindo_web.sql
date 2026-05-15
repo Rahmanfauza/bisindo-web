@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 04 Feb 2026 pada 03.11
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Host: localhost
+-- Waktu pembuatan: 15 Bulan Mei 2026 pada 15.31
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -143,7 +143,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '0001_01_01_000002_create_jobs_table', 1),
 (4, '2025_11_11_080108_create_sessions_table', 2),
 (5, '2026_01_02_073414_add_has_completed_onboarding_to_users_table', 3),
-(6, '2026_01_02_203000_create_contents_table', 4);
+(6, '2026_01_02_203000_create_contents_table', 4),
+(7, '2026_02_04_040246_add_avatar_to_users_table', 5);
 
 -- --------------------------------------------------------
 
@@ -165,7 +166,11 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('qAbFgnsdqSdyTSDKeMaEF0Pqv4u8SZ2uDaMmsulu', NULL, '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/17.5 Mobile/15A5370a Safari/602.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUHhMd1hFUUhqWkJodWpWY2Vsd1k4RzlMTEJtZkREcGhRZHpPSmpLRSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1770122707);
+('5flSlmfyGaPYeuxNZDxq484aMiJh8RMazgf8mlKy', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVlBrbWtUZzdwY2JZalBYTVpyTWEzd3FudWdjd0o3c2dUeW44eUdqSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9fQ==', 1778342097),
+('7XunM2BxwxOEFBUhXKpL0lLS2mN6YMaW9jr7rzOX', 6, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVURBUms0WlVTYkhCQkg5UWpuU1luTDhCMXdGc2ZQQkRYd0hzcVpZeSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90cmFuc2xhdG9yIjtzOjU6InJvdXRlIjtzOjEwOiJ0cmFuc2xhdG9yIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Njt9', 1778668802),
+('i5ksuSuXVBniYipHrMpN6B8f3MQipP5ojifpeUNW', 6, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiM3hjS3hQYlAwRWFmNGQ3cU0wc0JDMEJTOWlRWEozNVpTTnpKYTNsRyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9maWxlIjtzOjU6InJvdXRlIjtzOjc6InByb2ZpbGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1778473063),
+('O7zlmyV7kJCYD3D7cuUXMuVBVCaI3ZmdDcNeFzPa', NULL, '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiajY3bDNxdG9ZTDZUQjExZjdaRTQ4TzUwUm9ETzk1ZkxyN05vakptSCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMSI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9fQ==', 1778145443),
+('ZxPTNrbatLkL5MqePbiDgd2LEogiFkZNMsz3yj5R', 6, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYThTZ1NmTlgzamJESllWbGVadlM4T1lVbXdoSUUwTjAzNlVOakx1NyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90cmFuc2xhdG9yIjtzOjU6InJvdXRlIjtzOjEwOiJ0cmFuc2xhdG9yIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Njt9', 1778311285);
 
 -- --------------------------------------------------------
 
@@ -177,6 +182,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `has_completed_onboarding` tinyint(1) NOT NULL DEFAULT 0,
@@ -189,12 +195,12 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `has_completed_onboarding`, `remember_token`, `created_at`, `updated_at`) VALUES
-(6, 'Rahman Fauza', 'rahmanfauza25@gmail.com', NULL, '$2y$12$Q3S54F1c5.lz.Oq76sareu4CligpNOPf0ugE0KnXEuKKLYoRouuwi', 0, NULL, '2025-11-11 12:13:42', '2025-11-11 12:13:42'),
-(11, 'Rahman Fauza', 'admin@gmail.com', NULL, '$2y$12$49avHLNpH2p6mkmjm5q2seBCGKKun/ayjKuANeG7dFgowYSxF/dQO', 0, NULL, '2025-12-08 08:11:57', '2025-12-08 08:11:57'),
-(12, 'mamat memet', 'rahmanfauza1@gmail.com', NULL, '$2y$12$dh3y50N4dG0M0CAeJ3HAAOEG8UMtsK5vSOWdS9sEFCgWh8eokUE5m', 1, NULL, '2026-01-02 00:43:52', '2026-01-02 00:44:31'),
-(13, 'Rahman Fauza', 'rahmanfauza2@gmail.com', NULL, '$2y$12$BaVfKRtC1UVbDzkQIeNDN.eBVKjCtgCF.lwu4thqorzRIMNeVcMpy', 1, NULL, '2026-01-02 01:18:33', '2026-01-02 01:18:57'),
-(14, 'admin', 'rahmanfauza86@gmail.com', NULL, '$2y$12$gIdP41JRMip7Qot5WRu6P.HrTKxIB9jo8L5SJGuFaa6jEdwZbyKfK', 0, 'cLdL3pDTmmeDMczXQBXALekxldO68LYfQxU1kvY7NXkcZfV78iRt0UdYUAyi', '2026-01-02 06:59:40', '2026-01-02 06:59:40');
+INSERT INTO `users` (`id`, `name`, `email`, `avatar`, `email_verified_at`, `password`, `has_completed_onboarding`, `remember_token`, `created_at`, `updated_at`) VALUES
+(6, 'Rahman Fauza', 'rahmanfauza25@gmail.com', 'avatars/HAO2IYQeJqn3d9KUp20lLrILFzICcxkzBrGz8wuX.jpg', NULL, '$2y$12$Q3S54F1c5.lz.Oq76sareu4CligpNOPf0ugE0KnXEuKKLYoRouuwi', 0, NULL, '2025-11-11 12:13:42', '2026-04-16 01:43:32'),
+(11, 'Rahman Fauza', 'admin@gmail.com', NULL, NULL, '$2y$12$49avHLNpH2p6mkmjm5q2seBCGKKun/ayjKuANeG7dFgowYSxF/dQO', 0, NULL, '2025-12-08 08:11:57', '2025-12-08 08:11:57'),
+(12, 'mamat memet', 'rahmanfauza1@gmail.com', NULL, NULL, '$2y$12$dh3y50N4dG0M0CAeJ3HAAOEG8UMtsK5vSOWdS9sEFCgWh8eokUE5m', 1, NULL, '2026-01-02 00:43:52', '2026-01-02 00:44:31'),
+(13, 'Rahman Fauza', 'rahmanfauza2@gmail.com', NULL, NULL, '$2y$12$BaVfKRtC1UVbDzkQIeNDN.eBVKjCtgCF.lwu4thqorzRIMNeVcMpy', 1, NULL, '2026-01-02 01:18:33', '2026-01-02 01:18:57'),
+(14, 'admin', 'rahmanfauza86@gmail.com', NULL, NULL, '$2y$12$gIdP41JRMip7Qot5WRu6P.HrTKxIB9jo8L5SJGuFaa6jEdwZbyKfK', 0, 'cLdL3pDTmmeDMczXQBXALekxldO68LYfQxU1kvY7NXkcZfV78iRt0UdYUAyi', '2026-01-02 06:59:40', '2026-01-02 06:59:40');
 
 --
 -- Indexes for dumped tables
@@ -285,7 +291,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

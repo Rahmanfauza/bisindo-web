@@ -418,10 +418,21 @@
         function speakSentence() {
             if ('speechSynthesis' in window) {
                 if (sentence.length === 0) return;
-
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(sentence);
-                utterance.lang = 'id-ID'; // Indonesian
-                utterance.rate = 0.9;
+                utterance.lang = 'id-ID'; 
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                
+                const voices = window.speechSynthesis.getVoices();
+                const idVoices = voices.filter(v => v.lang.includes('id'));
+                const maleVoice = idVoices.find(v => (v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female')) || v.name.includes('Andika') || v.name.toLowerCase().includes('pria') || v.name.toLowerCase().includes('laki'));
+                
+                if (maleVoice) {
+                    utterance.voice = maleVoice;
+                } else if (idVoices.length > 0) {
+                    utterance.voice = idVoices[0];
+                }
 
                 window.speechSynthesis.speak(utterance);
             } else {

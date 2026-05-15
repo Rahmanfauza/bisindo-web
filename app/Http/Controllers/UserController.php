@@ -21,6 +21,11 @@ class UserController extends Controller
         return view('user.translator.bisindo');
     }
 
+    public function bisindoKata()
+    {
+        return view('user.translator.bisindo_kata');
+    }
+
     public function sibi()
     {
         return view('user.translator.sibi');

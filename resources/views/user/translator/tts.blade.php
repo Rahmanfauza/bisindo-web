@@ -73,16 +73,28 @@
             if (!text) return;
 
             if ('speechSynthesis' in window) {
-                // Cancel any current speech
                 window.speechSynthesis.cancel();
-
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'id-ID'; // Indonesian
-                utterance.rate = 0.9;
+                utterance.lang = 'id-ID'; 
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0; // Pitch dikembalikan ke normal
+                
+                const voices = window.speechSynthesis.getVoices();
+                const idVoices = voices.filter(v => v.lang.includes('id'));
+                
+                // Cari suara bernama Andika, atau yang ada label 'male'
+                const maleVoice = idVoices.find(v => (v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female')) || v.name.includes('Andika') || v.name.toLowerCase().includes('pria') || v.name.toLowerCase().includes('laki'));
+                
+                if (maleVoice) {
+                    utterance.voice = maleVoice;
+                } else if (idVoices.length > 0) {
+                    // Fallback
+                    utterance.voice = idVoices[0];
+                }
 
                 window.speechSynthesis.speak(utterance);
             } else {
-                alert("Browser anda tidak mendukung fitur ini.");
+                alert("Browser anda tidak mendukung Text-to-Speech");
             }
         }
 

@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', [UserController::class, 'settings'])->name('settings');
     Route::get('/translator', [UserController::class, 'translator'])->name('translator');
     Route::get('/translator/bisindo', [UserController::class, 'bisindo'])->name('translator.bisindo');
+    Route::get('/translator/bisindo-kata', [UserController::class, 'bisindoKata'])->name('translator.bisindo_kata');
     Route::get('/translator/sibi', [UserController::class, 'sibi'])->name('translator.sibi');
     Route::get('/translator/tts', [UserController::class, 'tts'])->name('translator.tts');
     Route::get('/dictionary', [UserController::class, 'dictionary'])->name('dictionary');

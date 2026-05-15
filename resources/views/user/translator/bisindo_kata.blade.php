@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Abjad SIBI - Penerjemah Isyarat')
+@section('title', 'Kata Bisindo - Penerjemah Isyarat Kata')
 
 @section('content')
 <div class="min-h-screen bg-paper text-pencil pb-20 font-patrick relative overflow-hidden">
@@ -15,9 +15,9 @@
 
         <!-- Header Section -->
         <div class="mb-10 text-center transform -rotate-1">
-            <h1 class="text-4xl font-bold text-pencil mb-2 font-kalam">Abjad SIBI</h1>
+            <h1 class="text-4xl font-bold text-pencil mb-2 font-kalam">Kata Bisindo</h1>
             <p class="text-pencil leading-relaxed text-lg bg-gray-100 p-2 border-2 border-dashed border-pencil rounded-wobbly inline-block transform rotate-1">
-                Arahkan kamera ke tangan Anda untuk menerjemahkan abjad SIBI.
+                Arahkan kamera ke tubuh dan tangan Anda untuk menerjemahkan kata Bisindo secara real-time.
             </p>
             <br>
             <a href="{{ route('translator') }}"
@@ -32,9 +32,9 @@
             <!-- Video/Canvas Container -->
             <div class="relative w-[640px] h-[480px] bg-paper rounded-wobbly-lg overflow-hidden border-[6px] border-pencil shadow-wobbly-lg mb-8 max-w-full transform rotate-1 transition">
                 <video id="input_video"
-                    class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-cover"></video>
+                    class="absolute top-0 left-0 w-full h-full object-cover"></video>
                 <canvas id="output_canvas" width="640" height="480"
-                    class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-contain"></canvas>
+                    class="absolute top-0 left-0 w-full h-full object-contain"></canvas>
             </div>
 
             <!-- Status Indicator -->
@@ -52,7 +52,7 @@
                 <div class="flex justify-between items-center mb-6">
                     <div class="text-left">
                         <p class="text-xl text-pencil font-kalam underline decoration-wavy decoration-correction decoration-2 mb-1">Terdeteksi</p>
-                        <span id="prediction-text" class="block text-7xl font-kalam font-bold text-pencil transform rotate-2 transition-transform duration-300 scale-100">-</span>
+                        <span id="prediction-text" class="block text-5xl font-kalam font-bold text-pencil transform rotate-2 transition-transform duration-300 scale-100">-</span>
                         <div id="confidence-text" class="text-pencil font-patrick text-md font-bold mt-2 bg-gray-100 px-2 py-1 border-2 border-dashed border-pencil rounded-wobbly inline-block transform -rotate-2">Confidence: 0%</div>
                     </div>
 
@@ -74,7 +74,7 @@
                     </p>
                     <div
                         class="bg-paper border-[3px] border-pencil rounded-wobbly p-5 min-h-[100px] flex flex-col justify-between shadow-inner transform -rotate-1">
-                        <p id="sentence-text" class="text-2xl text-pencil font-kalam font-bold break-words leading-relaxed tracking-wide min-h-[40px] transition-all duration-200">
+                        <p id="sentence-text" class="text-2xl text-pencil font-kalam font-bold break-words leading-relaxed tracking-wide min-h-[40px]">
                             <span class="text-gray-400 italic font-patrick font-normal text-lg">Belum ada kata...</span>
                         </p>
 
@@ -86,7 +86,7 @@
                             </button>
                             <button onclick="backspace()"
                                 class="px-4 py-2 bg-white border-2 border-pencil text-pencil hover:bg-postit rounded-wobbly shadow-wobbly-hover transform hover-jiggle transition cursor-pointer active:shadow-none active:translate-y-1 active:translate-x-1"
-                                title="Hapus Satu Huruf">
+                                title="Hapus Satu Kata">
                                 <i class="fas fa-backspace text-lg"></i>
                             </button>
                             <button onclick="addSpace()"
@@ -112,33 +112,23 @@
 @push('scripts')
     <!-- TensorFlow.js -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.4.0/dist/tf.min.js"></script>
-    <!-- MediaPipe Hands -->
+    <!-- MediaPipe Holistic -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js" crossorigin="anonymous"></script>
 
     <script>
-        // 1. Configuration matches Python keys
-        // TUNED PARAMETERS FOR SIBI (More forgiving)
-        const CONFIDENCE_THRESHOLD = 0.6; // Lowered from 0.7
-        const CLASSES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        const CONFIDENCE_THRESHOLD = 0.6;
+        const CLASSES = ['makan', 'idle', 'hallo']; // Sesuaikan dengan output os.listdir('dataset')
 
-        // --- NEW CONFIGURATION FOR SMOOTHING & STABILIZATION ---
-        const SMOOTHING_BUFFER_SIZE = 10; // Back to 10 (Matches Bisindo)
-        const STABILIZATION_FRAMES = 15;  // Back to 15 (Matches Bisindo)
-        const AUTO_SPACE_DELAY = 2000;    // 2 seconds of no hands -> Auto Space
-
-        // State Variables
-        let predictionsQueue = [];
-        let stableCounter = 0;
-        let lastStableChar = null;
-        let sentence = "";
-        let isSpeaking = false;
-        let noHandsTime = 0; // Timestamp when hands were last lost
-        let hasAddedAutoSpace = false; // Flag to prevent multiple auto-spaces
-        let debugMode = false;
-        let lastFrameTime = 0;
+        // Stabilizer configuration
+        const SEQUENCE_LENGTH = 30; // LSTM requires exactly 30 frames
+        
+        let sequence = [];
+        let sentenceList = [];
+        let lastDetectedLabel = null;
+        let model;
 
         const videoElement = document.getElementById('input_video');
         const canvasElement = document.getElementById('output_canvas');
@@ -147,18 +137,14 @@
         const predictionText = document.getElementById('prediction-text');
         const confidenceText = document.getElementById('confidence-text');
 
-        // New UI Elements
         const statusIndicator = document.getElementById('status-indicator');
         const sentenceText = document.getElementById('sentence-text');
 
-        let model;
-
-        // 2. Load Model
         async function loadModel() {
             try {
                 statusDiv.innerText = 'Loading model...';
-                // UPDATE: Point to the public model path for SIBI
-                model = await tf.loadLayersModel('/models/sibi/model.json');
+                // URL Model Bisindo Kata
+                model = await tf.loadLayersModel('/models/kata_bisindo/model.json');
 
                 statusDiv.className = 'mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-postit text-pencil transform -rotate-1';
                 statusDiv.innerText = 'Model loaded! Starting camera...';
@@ -170,132 +156,90 @@
             }
         }
 
-        // 3. Preprocessing Logic (Matches Python `extract_landmarks`)
-        function extractLandmarks(handLandmarks, handLabel) {
-            const landmarks = [];
-
-            // 1. Coordinates: x, y, z
-            for (const landmark of handLandmarks) {
-                // MIRROR LOGIC:
-                // Python script uses cv2.flip(image, 1).
-                // This inverts the X coordinate.
-                // We must do the same here to match the model training data.
-                const mirroredX = 1.0 - landmark.x;
-
-                landmarks.push(mirroredX, landmark.y, landmark.z);
+        // Feature extraction (258 points) matches python script
+        function extractKeypoints(results) {
+            let pose = new Array(33 * 4).fill(0);
+            if (results.poseLandmarks) {
+                for (let i = 0; i < results.poseLandmarks.length; i++) {
+                    const res = results.poseLandmarks[i];
+                    pose[i * 4] = res.x;
+                    pose[i * 4 + 1] = res.y;
+                    pose[i * 4 + 2] = res.z;
+                    pose[i * 4 + 3] = res.visibility !== undefined ? res.visibility : 0;
+                }
             }
 
-            // 2. Hand Code: Right=1, Left=-1
-            // Matches Python inisiasi logic: 1 if hand_type == "Right" else -1
-            const handCode = (handLabel === 'Right') ? 1 : -1;
+            let lh = new Array(21 * 3).fill(0);
+            if (results.leftHandLandmarks) {
+                for (let i = 0; i < results.leftHandLandmarks.length; i++) {
+                    const res = results.leftHandLandmarks[i];
+                    lh[i * 3] = res.x;
+                    lh[i * 3 + 1] = res.y;
+                    lh[i * 3 + 2] = res.z;
+                }
+            }
 
-            // Insert handCode at the beginning
-            landmarks.unshift(handCode);
+            let rh = new Array(21 * 3).fill(0);
+            if (results.rightHandLandmarks) {
+                for (let i = 0; i < results.rightHandLandmarks.length; i++) {
+                    const res = results.rightHandLandmarks[i];
+                    rh[i * 3] = res.x;
+                    rh[i * 3 + 1] = res.y;
+                    rh[i * 3 + 2] = res.z;
+                }
+            }
 
-            return landmarks;
+            return pose.concat(lh).concat(rh);
         }
 
-        // 4. MediaPipe Hands
         function onResults(results) {
-            // Save UI
             canvasCtx.save();
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-            // Draw Camera Feed
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
-            // Logic Containers (Zeros [64])
-            let leftHandData = new Array(64).fill(0);
-            let rightHandData = new Array(64).fill(0);
-
-            let handsDetected = false;
-
-            if (results.multiHandLandmarks && results.multiHandedness) {
-                handsDetected = results.multiHandLandmarks.length > 0;
-                for (let i = 0; i < results.multiHandLandmarks.length; i++) {
-                    const landmarks = results.multiHandLandmarks[i];
-                    const classification = results.multiHandedness[i];
-
-                    // Note on Classification:
-                    // Python training data used cv2.flip(1), which makes a Right hand look like a Left hand.
-                    // So Physical Right Hand -> Python detected "Left".
-                    // JS MediaPipe detects Physical Right Hand as "Right".
-                    // To match the model input, we must SWAP the labels.
-
-                    const originalLabel = classification.label;
-                    const effectiveLabel = (originalLabel === 'Right') ? 'Left' : 'Right';
-
-                    // Extract Features using the EFFECTIVE label
-                    const feats = extractLandmarks(landmarks, effectiveLabel);
-
-                    // Slot Data using the EFFECTIVE label
-                    if (effectiveLabel === 'Left') {
-                        leftHandData = feats;
-                    } else {
-                        rightHandData = feats;
-                    }
-
-                    // Draw Landmarks (Visuals can stay true to original or swap, let's keep visual generic)
-                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, { color: '#2d2d2d', lineWidth: 5 });
-                    drawLandmarks(canvasCtx, landmarks, { color: '#ff4d4d', lineWidth: 3, radius: 4 });
-                }
-
-                // Combine Data: Left + Right (Length 128)
-                const combinedData = leftHandData.concat(rightHandData);
-
-                // Slice to 126 (Match Training Input)
-                const inputFeatures = combinedData.slice(0, 126);
-
-                // Predict
-                predict(inputFeatures);
-
+            // Draw Landmarks
+            if (results.poseLandmarks) {
+                drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
+                drawLandmarks(canvasCtx, results.poseLandmarks, {color: '#ff4d4d', lineWidth: 3, radius: 4});
+            }
+            if (results.leftHandLandmarks) {
+                drawConnectors(canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
+                drawLandmarks(canvasCtx, results.leftHandLandmarks, {color: '#ff4d4d', lineWidth: 3, radius: 4});
+            }
+            if (results.rightHandLandmarks) {
+                drawConnectors(canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
+                drawLandmarks(canvasCtx, results.rightHandLandmarks, {color: '#ff4d4d', lineWidth: 3, radius: 4});
             }
 
-            if (!handsDetected) {
-                // If no hands, clear local buffer to avoid stuck predictions
-                // But we don't clear sentence
-                statusIndicator.innerText = "Tidak ada tangan";
-                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-patrick font-bold bg-white text-pencil shadow-sm transform -rotate-1";
+            const keypoints = extractKeypoints(results);
+            sequence.push(keypoints);
+            
+            // Keep length to 30
+            if (sequence.length > SEQUENCE_LENGTH) {
+                sequence.shift();
+            }
 
-                // Partially decay queue or clear it? Let's clear to reset smoothing.
-                predictionsQueue = [];
-                stableCounter = 0;
-
-                // --- AUTO SPACE LOGIC ---
-                // If hands are gone for > 2 seconds, and we haven't added a space yet, and sentence doesn't end in space
-                if (noHandsTime === 0) {
-                    noHandsTime = Date.now();
-                } else {
-                    const elapsed = Date.now() - noHandsTime;
-                    if (elapsed > AUTO_SPACE_DELAY && !hasAddedAutoSpace && sentence.length > 0 && !sentence.endsWith(" ")) {
-                        addSpace();
-                        hasAddedAutoSpace = true; // Lock
-                        statusIndicator.innerText = "Auto Spasi";
-                        statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam text-white font-bold bg-correction shadow-sm transform rotate-2 hover-jiggle";
-                    }
-                }
+            if (sequence.length === SEQUENCE_LENGTH) {
+                predict([...sequence]); // Clone sequence for prediction
             } else {
-                // Hands match! Reset auto-space timers
-                noHandsTime = 0;
-                hasAddedAutoSpace = false;
+                statusIndicator.innerText = `Menyiapkan ${sequence.length}/${SEQUENCE_LENGTH}...`;
+                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-postit text-pencil shadow-sm transform rotate-1";
             }
 
             canvasCtx.restore();
         }
 
-        async function predict(inputFeatures) {
+        async function predict(inputSequence) {
             if (!model) return;
 
-            // Tensor [1, 126]
-            const inputTensor = tf.tensor2d([inputFeatures], [1, 126]);
+            // sequence is [30, 258]
+            const inputTensor = tf.tensor3d([inputSequence], [1, 30, 258]);
 
             const prediction = model.predict(inputTensor);
-            const result = await prediction.data(); // Float32Array
+            const result = await prediction.data(); 
 
-            // Dispose tensor
             inputTensor.dispose();
 
-            // Find Max
             let maxScore = -1;
             let maxIndex = -1;
 
@@ -309,49 +253,24 @@
             const rawLabel = CLASSES[maxIndex];
             const confidencePct = (maxScore * 100).toFixed(1);
 
-            // --- SMOOTHING & STABILIZATION LOGIC ---
-
             if (maxScore > CONFIDENCE_THRESHOLD) {
-                // 1. Add to processing queue
-                predictionsQueue.push(rawLabel);
-                if (predictionsQueue.length > SMOOTHING_BUFFER_SIZE) {
-                    predictionsQueue.shift(); // Keep buffer size fixed
-                }
-
-                // 2. Vote (Mode)
-                const smoothedLabel = getMostFrequent(predictionsQueue);
-
-                // Visual Update for Detection
-                predictionText.innerText = smoothedLabel;
+                predictionText.innerText = rawLabel;
                 predictionText.classList.add('text-correction', 'scale-110');
                 predictionText.classList.remove('text-pencil', 'scale-100');
                 confidenceText.innerText = `Confidence: ${confidencePct}%`;
 
-                // 3. Stabilization for Sentence Construction
-                if (smoothedLabel === lastStableChar) {
-                    stableCounter++;
-                } else {
-                    stableCounter = 0;
-                    lastStableChar = smoothedLabel;
-                }
+                statusIndicator.innerText = "Terkonfirmasi";
+                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam font-bold bg-pencil text-white shadow-sm transform -rotate-2 hover-jiggle scale-110 transition";
 
-                // Update Status
-                if (stableCounter < STABILIZATION_FRAMES) {
-                    statusIndicator.innerText = "Memverifikasi...";
-                    statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-postit text-pencil shadow-sm transform rotate-1";
-                } else {
-                    statusIndicator.innerText = "Terkonfirmasi";
-                    statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam font-bold bg-pencil text-white shadow-sm transform -rotate-2 hover-jiggle scale-110 transition";
-
-                    // COMMIT TO SENTENCE
-                    // Trigger only ONCE when threshold is reached
-                    if (stableCounter === STABILIZATION_FRAMES) {
-                        commitCharToSentence(smoothedLabel);
+                if (rawLabel !== lastDetectedLabel) {
+                    lastDetectedLabel = rawLabel;
+                    
+                    if (rawLabel !== 'idle') {
+                        sentenceList.push(rawLabel);
+                        updateSentenceUI();
                     }
                 }
-
             } else {
-                // Low Confidence
                 predictionText.innerText = "...";
                 predictionText.classList.remove('text-correction', 'scale-110');
                 predictionText.classList.add('text-pencil', 'scale-100');
@@ -359,79 +278,49 @@
 
                 statusIndicator.innerText = "Buram";
                 statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-gray-100 text-pencil shadow-sm transform rotate-1 opacity-80";
-
-                predictionsQueue = [];
-                stableCounter = 0;
             }
         }
 
-        // --- HELPER FUNCTIONS ---
-
-        function getMostFrequent(arr) {
-            const hashmap = arr.reduce((acc, val) => {
-                acc[val] = (acc[val] || 0) + 1;
-                return acc;
-            }, {});
-            return Object.keys(hashmap).reduce((a, b) => hashmap[a] > hashmap[b] ? a : b);
-        }
-
-        function commitCharToSentence(char) {
-            // Logic: Append character. 
-            // Optional: Prevent duplicate Double-Letters if needed, but for names/words double letters exist.
-            // Since we only commit once per "Stabilization Session", user has to break pose (stableCounter reset) 
-            // or switch letter to add another. To add 'AA', user must do 'A' -> Relax/Other -> 'A'.
-
-            // Allow duplicates effectively by this logic.
-
-            sentence += char;
-            updateSentenceUI();
-
-            // Pulse effect to indicate add
-            sentenceText.classList.add('text-correction', 'scale-105');
-            setTimeout(() => sentenceText.classList.remove('text-correction', 'scale-105'), 200);
-
-            // Optional: Small haptic/sound feedback could go here
-        }
-
         function addSpace() {
-            if (sentence.length > 0 && !sentence.endsWith(" ")) {
-                sentence += " ";
+            // Karena ini list kata, "spasi" kita asumsikan koma atau jeda
+            if (sentenceList.length > 0 && sentenceList[sentenceList.length - 1] !== " ") {
+                sentenceList.push(" ");
                 updateSentenceUI();
-
-                // Pulse effect
-                sentenceText.classList.add('text-correction', 'scale-105');
-                setTimeout(() => sentenceText.classList.remove('text-correction', 'scale-105'), 200);
             }
         }
 
         function backspace() {
-            if (sentence.length > 0) {
-                sentence = sentence.slice(0, -1);
+            if (sentenceList.length > 0) {
+                sentenceList.pop();
                 updateSentenceUI();
             }
         }
 
         function updateSentenceUI() {
-            if (sentence.length === 0) {
-                sentenceText.innerHTML = '<span class="text-gray-400 italic font-patrick font-normal text-lg">Belum ada kata...</span>';
+            if (sentenceList.length === 0) {
+                sentenceText.innerHTML = '<span class="text-gray-400 italic">Belum ada kata...</span>';
             } else {
-                sentenceText.innerText = sentence;
+                // Filter spasi dan gabungkan kata
+                let display = sentenceList.join(" ").replace(/ \s+/g, " ");
+                sentenceText.innerText = display;
             }
         }
 
         function clearSentence() {
-            sentence = "";
+            sentenceList = [];
             updateSentenceUI();
         }
 
         function speakSentence() {
             if ('speechSynthesis' in window) {
-                if (sentence.length === 0) return;
+                if (sentenceList.length === 0) return;
                 window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(sentence);
+                
+                let textToSpeak = sentenceList.join(" ");
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
                 utterance.lang = 'id-ID'; 
                 utterance.rate = 1.0;
-                utterance.pitch = 1.0; // Pitch dikembalikan ke normal
+                utterance.pitch = 1.0;
                 
                 const voices = window.speechSynthesis.getVoices();
                 const idVoices = voices.filter(v => v.lang.includes('id'));
@@ -449,27 +338,30 @@
             }
         }
 
-        // 5. Initialize MediaPipe
-        const hands = new Hands({
+        // Initialize Holistic Model
+        const holistic = new Holistic({
             locateFile: (file) => {
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+                return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
             }
         });
 
-        hands.setOptions({
-            maxNumHands: 2,
+        holistic.setOptions({
             modelComplexity: 1,
-            minDetectionConfidence: 0.7, // Increased to reduce ghost detections
-            minTrackingConfidence: 0.7
+            smoothLandmarks: true,
+            enableSegmentation: false,
+            smoothSegmentation: true,
+            refineFaceLandmarks: false,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5,
+            selfieMode: true // IMPORTANT: Mirip dengan cv2.flip(1) di OpenCV
         });
 
-        hands.onResults(onResults);
+        holistic.onResults(onResults);
 
-        // 6. Camera Utils
         function startCamera() {
             const camera = new Camera(videoElement, {
                 onFrame: async () => {
-                    await hands.send({ image: videoElement });
+                    await holistic.send({ image: videoElement });
                 },
                 width: 640,
                 height: 480
@@ -477,7 +369,6 @@
             camera.start();
         }
 
-        // Trigger Init
         loadModel();
     </script>
 @endpush

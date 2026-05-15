@@ -68,7 +68,7 @@
                 </a>
 
                 <!-- Kata Perkata -->
-                <a href="#"
+                <a href="{{ route('translator.bisindo_kata') }}"
                     class="block bg-white p-5 border-[4px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle transition group transform rotate-2 cursor-pointer">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-5">

@@ -55,6 +55,11 @@
                             </label>
                         </div>
                         <p class="text-lg text-pencil font-patrick font-bold bg-white underline decoration-wavy decoration-correction underline-offset-4 transform rotate-1 px-2">Ketuk kamera untuk mengubah foto</p>
+                        @error('avatar')
+                            <div class="mt-3 px-3 py-1 bg-red-100 border-2 border-correction rounded-wobbly text-correction text-sm font-bold font-patrick transform -rotate-1 text-center max-w-xs">
+                                <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <!-- Name Input -->

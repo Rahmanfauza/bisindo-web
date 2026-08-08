@@ -42,10 +42,10 @@
                     </a>
                     @endforeach
 
-                    <button onclick="openLogin()"
-                        class="bg-paper text-pencil border-[3px] border-pencil rounded-wobbly px-6 py-2.5 font-kalam font-bold text-lg shadow-wobbly hover-jiggle">
-                        Login
-                    </button>
+                    <a href="{{ route('translator') }}"
+                        class="bg-paper text-pencil border-[3px] border-pencil rounded-wobbly px-6 py-2.5 font-kalam font-bold text-lg shadow-wobbly hover-jiggle inline-block text-center">
+                        Terjemah
+                    </a>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -72,10 +72,10 @@
                 </a>
                 @endforeach
 
-                <button onclick="openLogin()"
-                    class="mobile-menu-link text-white bg-correction border-[3px] border-pencil rounded-wobbly px-10 py-4 font-kalam font-bold text-2xl shadow-wobbly hover-jiggle transform rotate-1 mt-4">
-                    Login
-                </button>
+                <a href="{{ route('translator') }}"
+                    class="mobile-menu-link text-white bg-correction border-[3px] border-pencil rounded-wobbly px-10 py-4 font-kalam font-bold text-2xl shadow-wobbly hover-jiggle transform rotate-1 mt-4 inline-block text-center">
+                    Terjemah
+                </a>
             </div>
         </div>
     </nav>
@@ -98,10 +98,10 @@
 
                 <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row gap-6 items-start">
-                    <button type="button" onclick="openRegister()"
+                    <a href="{{ route('translator') }}"
                         class="bg-correction text-white border-[3px] border-pencil px-8 py-3 rounded-wobbly font-kalam font-bold text-2xl shadow-wobbly hover-jiggle">
-                        Mulai Belajar Sekarang
-                    </button>
+                        Mulai Menerjemah
+                    </a>
                     <a href="#services"
                         class="bg-paper text-pencil border-[3px] border-pencil px-8 py-3 rounded-wobbly font-kalam font-bold text-2xl shadow-wobbly hover-jiggle inline-flex items-center justify-center">
                         Pelajari Lebih Lanjut
@@ -278,39 +278,7 @@
         </div>
     </section>
 
-    <!-- Dictionary Section -->
-    <section class="py-12 lg:py-20 bg-paper relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <!-- Unified Card Container -->
-            <div
-                class="bg-postit rounded-wobbly shadow-wobbly-lg overflow-hidden flex flex-col lg:flex-row border-[4px] border-pencil transform rotate-1">
-                <!-- Left: Content Area -->
-                <div
-                    class="w-full lg:w-1/2 p-8 md:p-10 lg:p-12 flex flex-col justify-center text-center lg:text-left space-y-6">
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-kalam font-bold text-pencil leading-tight">
-                        Jelajahi Kamus Video <span class="bg-correction text-white px-2 border-2 border-pencil inline-block transform -rotate-2 mt-2">Kami yang Lengkap</span>
-                    </h2>
-                    <p class="text-lg md:text-xl text-pencil font-patrick leading-relaxed">
-                        Temukan lebih dari 2.000 tanda bahasa, setiap tanda dilengkapi dengan video
-                        demonstrasi yang jelas, ideal untuk pemula maupun yang ingin memperbarui keterampilan.
-                    </p>
-                    <div class="pt-2 flex justify-center lg:justify-start">
-                        <a href="#"
-                            class="inline-flex items-center justify-center bg-paper text-pencil border-[3px] border-pencil px-6 sm:px-8 py-3 sm:py-4 rounded-wobbly font-kalam font-bold text-base sm:text-lg shadow-wobbly hover-jiggle w-full sm:w-auto transform rotate-1">
-                            <i class="fas fa-file-alt mr-2 sm:mr-3 flex-shrink-0"></i>
-                            <span class="text-center">Lihat Kamus Video Kami</span>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- Right: Image Area - No Padding, Full Size -->
-                <div class="w-full lg:w-1/2 relative border-t-[4px] lg:border-t-0 lg:border-l-[4px] border-pencil bg-white">
-                    <img src="{{ asset('img/more.png') }}" alt="ASL Family Learning"
-                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300">
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- IsyaraLearn untuk siapa -->
     <section class="py-20 lg:py-32 bg-paper relative overflow-hidden">
@@ -483,191 +451,7 @@
                 </div>
             </div>
         </div>
-    </section>    <!-- LOGIN/REGISTER MODAL -->
-    <div id="loginModal" class="fixed inset-0 z-50 hidden transition-opacity duration-300" aria-labelledby="modal-title"
-        role="dialog" aria-modal="true">
-        <!-- backdrop -->
-        <div class="absolute inset-0 bg-pencil/80 backdrop-blur-sm transition-opacity" onclick="closeLogin()"></div>
-
-        <!-- flex container -->
-        <div
-            class="relative flex items-center justify-center w-full h-full px-4 py-8 md:py-0 z-10 pointer-events-none overflow-y-auto">
-            <!-- panel container -->
-            <div class="container-slider bg-paper border-[4px] border-pencil shadow-wobbly-lg rounded-wobbly-lg relative overflow-hidden w-full max-w-md md:max-w-4xl min-h-[500px] md:min-h-[600px] pointer-events-auto my-auto transform rotate-1"
-                id="sliderContainer">
-
-                <!-- Close Button -->
-                <button onclick="closeLogin()"
-                    class="absolute top-3 right-3 md:top-4 md:right-4 z-[100] text-pencil hover:text-correction transition-all duration-300 p-2 hover-jiggle focus:outline-none">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
-
-                <!-- MOBILE TOGGLE BUTTONS -->
-                <div class="md:hidden absolute bottom-0 left-0 right-0 z-30 bg-white border-t-[3px] border-pencil flex">
-                    <button id="mobileSignInBtn"
-                        class="mobile-toggle-btn flex-1 py-4 text-lg font-kalam font-bold text-correction border-b-[3px] border-correction transition-all">
-                        Masuk
-                    </button>
-                    <button id="mobileSignUpBtn"
-                        class="mobile-toggle-btn flex-1 py-4 text-lg font-kalam font-bold text-pencil opacity-60 border-b-[3px] border-transparent transition-all">
-                        Daftar
-                    </button>
-                </div>
-
-                <!-- SIGN UP FORM (Register) -->
-                <div
-                    class="form-container sign-up-container absolute top-0 h-full transition-all duration-700 ease-in-out w-full md:w-1/2 left-0 opacity-0 md:opacity-0 z-10">
-                    <form action="{{ route('register') }}" method="POST" id="modalRegisterForm"
-                        class="bg-white flex flex-col items-center justify-center h-full px-6 md:px-12 text-center space-y-2 md:space-y-3 py-8 pb-20 md:pb-8 overflow-y-auto border-r-[3px] border-dashed border-pencil">
-                        @csrf
-                        <h1 class="font-kalam font-bold text-3xl md:text-4xl mb-1 md:mb-2 text-pencil">Buat Akun</h1>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 w-full">
-                            <div>
-                                <input type="text" name="firstName" placeholder="Nama Depan"
-                                    value="{{ old('firstName') }}" required
-                                    class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover @error('firstName') border-correction @enderror" />
-                                @error('firstName') <span
-                                    class="text-correction font-patrick text-xs text-left block ml-1 mt-1">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <input type="text" name="lastName" placeholder="Nama Belakang"
-                                    value="{{ old('lastName') }}" required
-                                    class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover @error('lastName') border-correction @enderror" />
-                                @error('lastName') <span
-                                    class="text-correction font-patrick text-xs text-left block ml-1 mt-1">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required
-                                class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover @error('email') border-correction @enderror" />
-                            @error('email') <span
-                                class="text-correction font-patrick text-xs text-left block ml-1 mt-1">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div class="w-full">
-                            <input type="password" name="password" placeholder="Password (Min. 8 karakter)" required
-                                class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover @error('password') border-correction @enderror" />
-                            @error('password') <span
-                                class="text-correction font-patrick text-xs text-left block ml-1 mt-1">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div class="w-full">
-                            <input type="password" name="password_confirmation" placeholder="Konfirmasi Password"
-                                required
-                                class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover" />
-                        </div>
-
-                        <div class="flex items-center w-full text-left text-sm font-patrick text-pencil mt-2">
-                            <input type="checkbox" id="modalTerms" name="terms" required
-                                class="h-5 w-5 rounded-sm border-2 border-pencil bg-paper text-correction border-gray-300 cursor-pointer mr-2 flex-shrink-0 appearance-none checked:bg-correction checked:border-correction focus:outline-none relative checked:after:content-['✓'] checked:after:text-white checked:after:absolute checked:after:left-1 checked:after:-top-0.5 checked:after:text-sm">
-                            <label for="modalTerms" class="text-pencil">
-                                Saya setuju dengan <a href="#"
-                                    class="text-correction font-bold hover:underline decoration-wavy">Syarat & Ketentuan</a>
-                            </label>
-                        </div>
-
-                        <button type="submit" id="registerBtn"
-                            class="bg-correction text-white border-[3px] border-pencil rounded-wobbly shadow-wobbly font-kalam font-bold text-lg py-2.5 md:py-3 px-10 md:px-12 w-full md:w-auto mt-4 hover-jiggle flex items-center justify-center gap-2">
-                            <span class="btn-text">Daftar</span>
-                            <i class="fas fa-spinner fa-spin hidden loading-icon" style="display: none;"></i>
-                        </button>
-
-                        <!-- Mobile only: Switch to login -->
-                        <p class="text-sm font-patrick text-pencil md:hidden mt-2">
-                            Sudah punya akun? <button type="button" onclick="switchToSignIn()"
-                                class="text-correction font-bold hover:underline decoration-wavy">Masuk di sini</button>
-                        </p>
-                    </form>
-                </div>
-
-                <!-- SIGN IN FORM (Login) -->
-                <div
-                    class="form-container sign-in-container absolute top-0 h-full transition-all duration-700 ease-in-out w-full md:w-1/2 left-0 z-20">
-                    <form action="{{ route('login.post') }}" method="POST"
-                        class="bg-white flex flex-col items-center justify-center h-full px-6 md:px-12 text-center space-y-3 md:space-y-4 py-8 pb-20 md:pb-8 overflow-y-auto border-r-[3px] border-dashed border-pencil">
-                        @csrf
-                        <h1 class="font-kalam font-bold text-4xl mb-1 md:mb-2 text-pencil">Masuk</h1>
-                        
-                        <div class="social-container flex space-x-4 mb-2 md:mb-4">
-                            <a href="#"
-                                class="border-2 border-pencil rounded-wobbly w-10 h-10 flex items-center justify-center hover:bg-postit hover-jiggle shadow-wobbly-hover transition transform -rotate-2"><i
-                                    class="fab fa-facebook-f text-pencil text-md"></i></a>
-                            <a href="#"
-                                class="border-2 border-pencil rounded-wobbly w-10 h-10 flex items-center justify-center hover:bg-postit hover-jiggle shadow-wobbly-hover transition transform rotate-2"><i
-                                    class="fab fa-google text-pencil text-md"></i></a>
-                            <a href="#"
-                                class="border-2 border-pencil rounded-wobbly w-10 h-10 flex items-center justify-center hover:bg-postit hover-jiggle shadow-wobbly-hover transition transform -rotate-1"><i
-                                    class="fab fa-linkedin-in text-pencil text-md"></i></a>
-                        </div>
-                        <span class="text-sm font-patrick text-pencil">atau gunakan akun anda</span>
-                        
-                        <div class="w-full">
-                            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required
-                                class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover @error('email') border-correction @enderror" />
-                            @error('email') <span
-                                class="text-correction font-patrick text-xs text-left block ml-1 mt-1">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="w-full">
-                            <input type="password" name="password" placeholder="Password" required
-                                class="bg-paper border-2 border-pencil px-4 py-2.5 md:py-3 text-sm md:text-base rounded-wobbly w-full text-pencil font-patrick focus:outline-none focus:border-correction focus:shadow-wobbly-hover @error('password') border-correction @enderror" />
-                            @error('password') <span
-                                class="text-correction font-patrick text-xs text-left block ml-1 mt-1">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <a href="#"
-                            class="text-sm font-patrick text-pencil font-bold hover:text-correction hover:underline decoration-wavy pb-1">Lupa Password anda?</a>
-                        
-                        <button type="submit" id="loginBtn"
-                            class="bg-correction text-white border-[3px] border-pencil rounded-wobbly shadow-wobbly font-kalam font-bold text-xl py-2.5 md:py-3 px-10 md:px-12 w-full md:w-auto mt-4 hover-jiggle flex items-center justify-center gap-2">
-                            <span class="btn-text">Masuk</span>
-                            <i class="fas fa-spinner fa-spin hidden loading-icon" style="display: none;"></i>
-                        </button>
-
-                        <!-- Mobile only: Switch to register -->
-                        <p class="text-sm font-patrick text-pencil md:hidden mt-2">
-                            Belum punya akun? <button type="button" onclick="switchToSignUp()"
-                                class="text-correction font-bold hover:underline decoration-wavy">Daftar di sini</button>
-                        </p>
-                    </form>
-                </div>
-
-                <!-- OVERLAY (Desktop Only) -->
-                <div
-                    class="overlay-container hidden md:block absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-transform duration-700 ease-in-out z-50 pointer-events-none">
-                    <div
-                        class="overlay bg-postit border-l-[4px] border-pencil text-pencil relative -left-full h-full w-[200%] transform transition-transform duration-700 ease-in-out pointer-events-auto">
-                        <!-- Left Overlay Panel (For Sign In) -->
-                        <div
-                            class="overlay-panel overlay-left absolute top-0 flex flex-col items-center justify-center h-full w-1/2 transform translate-x-0 transition-transform duration-700 ease-in-out -translate-x-[20%]">
-                            <h1 class="font-kalam font-bold text-4xl mb-6 text-pencil">Selamat Datang!</h1>
-                            <p class="text-xl font-patrick leading-relaxed mb-8 px-8 text-center text-pencil">
-                                Untuk tetap terhubung dengan kami, silakan masuk dengan info pribadi Anda.
-                            </p>
-                            <button
-                                class="bg-white text-pencil border-[3px] border-pencil rounded-wobbly shadow-wobbly font-kalam font-bold text-xl py-3 px-12 hover-jiggle"
-                                id="signInBtn">Masuk</button>
-                        </div>
-
-                        <!-- Right Overlay Panel (For Sign Up) -->
-                        <div
-                            class="overlay-panel overlay-right absolute top-0 right-0 flex flex-col items-center justify-center h-full w-1/2 transform translate-x-0 transition-transform duration-700 ease-in-out px-10 border-l-[4px] border-dashed border-pencil">
-                            <h1 class="font-kalam font-bold text-4xl mb-6 text-center text-pencil">Halo, Teman!</h1>
-                            <p class="text-xl font-patrick leading-relaxed mb-8 text-center px-6 text-pencil">
-                                Masukkan detail pribadi Anda dan mulailah perjalanan belajar bersama kami.
-                            </p>
-                            <button
-                                class="bg-white text-pencil border-[3px] border-pencil rounded-wobbly shadow-wobbly font-kalam font-bold text-xl py-3 px-12 hover-jiggle"
-                                id="signUpBtn">Daftar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>v>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-paper text-pencil border-t-[4px] border-pencil py-16 relative overflow-hidden">

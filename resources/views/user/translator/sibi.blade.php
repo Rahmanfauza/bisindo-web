@@ -375,6 +375,28 @@
             return Object.keys(hashmap).reduce((a, b) => hashmap[a] > hashmap[b] ? a : b);
         }
 
+        function speakChar(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID'; 
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                
+                const voices = window.speechSynthesis.getVoices();
+                const idVoices = voices.filter(v => v.lang.includes('id'));
+                const maleVoice = idVoices.find(v => (v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female')) || v.name.includes('Andika') || v.name.toLowerCase().includes('pria') || v.name.toLowerCase().includes('laki'));
+                
+                if (maleVoice) {
+                    utterance.voice = maleVoice;
+                } else if (idVoices.length > 0) {
+                    utterance.voice = idVoices[0];
+                }
+
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
         function commitCharToSentence(char) {
             // Logic: Append character. 
             // Optional: Prevent duplicate Double-Letters if needed, but for names/words double letters exist.
@@ -385,6 +407,7 @@
 
             sentence += char;
             updateSentenceUI();
+            speakChar(char);
 
             // Pulse effect to indicate add
             sentenceText.classList.add('text-correction', 'scale-105');
@@ -395,12 +418,19 @@
 
         function addSpace() {
             if (sentence.length > 0 && !sentence.endsWith(" ")) {
+                let words = sentence.trim().split(" ");
+                let lastWord = words[words.length - 1];
+
                 sentence += " ";
                 updateSentenceUI();
 
                 // Pulse effect
                 sentenceText.classList.add('text-correction', 'scale-105');
                 setTimeout(() => sentenceText.classList.remove('text-correction', 'scale-105'), 200);
+
+                if (lastWord) {
+                    speakChar(lastWord);
+                }
             }
         }
 

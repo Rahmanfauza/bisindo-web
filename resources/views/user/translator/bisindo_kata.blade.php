@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Kata Bisindo - Penerjemah Isyarat Kata')
+@section('hide_navbar', true)
 
 @section('content')
 <div class="min-h-screen bg-paper text-pencil pb-20 font-patrick relative overflow-hidden">
@@ -11,42 +12,47 @@
         </svg>
     </div>
 
-    <div class="max-w-4xl mx-auto px-4 pt-8 relative z-10">
+    <div class="w-full px-4 lg:px-8 pt-8 relative z-10">
 
         <!-- Header Section -->
-        <div class="mb-10 text-center transform -rotate-1">
+        <div class="mb-8 text-center transform -rotate-1">
             <h1 class="text-4xl font-bold text-pencil mb-2 font-kalam">Kata Bisindo</h1>
             <p class="text-pencil leading-relaxed text-lg bg-gray-100 p-2 border-2 border-dashed border-pencil rounded-wobbly inline-block transform rotate-1">
                 Arahkan kamera ke tubuh dan tangan Anda untuk menerjemahkan kata Bisindo secara real-time.
             </p>
             <br>
             <a href="{{ route('translator') }}"
-                class="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-white border-[3px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle text-pencil font-bold text-xl font-kalam transition cursor-pointer active:shadow-none active:translate-y-1 active:-rotate-2">
+                class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-white border-[3px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle text-pencil font-bold text-xl font-kalam transition cursor-pointer active:shadow-none active:translate-y-1 active:-rotate-2">
                 <i class="fas fa-arrow-left text-correction"></i> Kembali ke Menu
             </a>
         </div>
 
         <!-- Detection Container -->
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-6 w-full">
 
-            <!-- Video/Canvas Container -->
-            <div class="relative w-[640px] h-[480px] bg-paper rounded-wobbly-lg overflow-hidden border-[6px] border-pencil shadow-wobbly-lg mb-8 max-w-full transform rotate-1 transition">
-                <video id="input_video"
-                    class="absolute top-0 left-0 w-full h-full object-cover"></video>
-                <canvas id="output_canvas" width="640" height="480"
-                    class="absolute top-0 left-0 w-full h-full object-contain"></canvas>
+            <!-- Left Column: Camera & Status -->
+            <div class="w-full lg:w-1/2 flex flex-col items-center">
+                <!-- Video/Canvas Container -->
+                <div class="relative w-full aspect-[4/3] bg-paper rounded-wobbly-lg overflow-hidden border-[6px] border-pencil shadow-wobbly-lg mb-4 transform rotate-1 transition">
+                    <video id="input_video"
+                        class="absolute top-0 left-0 w-full h-full object-cover"></video>
+                    <canvas id="output_canvas" width="640" height="480"
+                        class="absolute top-0 left-0 w-full h-full object-contain"></canvas>
+                </div>
+
+                <!-- Status Indicator -->
+                <div id="status"
+                    class="px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full shadow-wobbly bg-gray-200 text-pencil transform -rotate-1">
+                    Menyala...
+                </div>
             </div>
 
-            <!-- Status Indicator -->
-            <div id="status"
-                class="mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-gray-200 text-pencil transform -rotate-1">
-                Menyala...
-            </div>
-
-            <!-- Prediction Result -->
-            <div id="prediction-container"
-                class="bg-white p-6 md:p-8 border-[4px] border-pencil rounded-wobbly-lg shadow-wobbly-lg w-full max-w-[640px] text-center mb-8 transition-all transform rotate-1 relative">
-                <!-- Session Tape Decoration -->
+            <!-- Right Column: Prediction Result -->
+            <div class="w-full lg:w-1/2 flex flex-col">
+                <!-- Prediction Result -->
+                <div id="prediction-container"
+                    class="bg-white p-6 md:p-8 border-[4px] border-pencil rounded-wobbly-lg shadow-wobbly-lg w-full flex-1 flex flex-col text-center transition-all transform rotate-1 relative">
+                    <!-- Session Tape Decoration -->
                 <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-gray-200 border-2 border-gray-300 transform -rotate-2 z-20 shadow-sm opacity-80" style="border-radius: 2px 2px 3px 2px / 255px 15px 225px 15px;"></div>
                 
                 <div class="flex justify-between items-center mb-6">
@@ -68,12 +74,12 @@
                 <div class="h-1 bg-pencil w-full my-6 rounded-wobbly transform -rotate-1"></div>
 
                 <!-- Sentence Construction -->
-                <div class="text-left mt-6">
+                <div class="text-left mt-6 flex-1 flex flex-col">
                     <p class="text-2xl text-pencil font-kalam font-bold mb-4 flex items-center gap-2">
                         <i class="fas fa-comment-dots text-correction transform -rotate-12 text-3xl"></i> Kalimat 
                     </p>
                     <div
-                        class="bg-paper border-[3px] border-pencil rounded-wobbly p-5 min-h-[100px] flex flex-col justify-between shadow-inner transform -rotate-1">
+                        class="bg-paper border-[3px] border-pencil rounded-wobbly p-5 min-h-[100px] flex-1 flex flex-col justify-between shadow-inner transform -rotate-1">
                         <p id="sentence-text" class="text-2xl text-pencil font-kalam font-bold break-words leading-relaxed tracking-wide min-h-[40px]">
                             <span class="text-gray-400 italic font-patrick font-normal text-lg">Belum ada kata...</span>
                         </p>
@@ -103,11 +109,13 @@
                     </div>
                 </div>
             </div>
+            </div>
 
         </div>
 
     </div>
 </div>
+
 
 @push('scripts')
     <!-- TensorFlow.js -->
@@ -120,15 +128,26 @@
 
     <script>
         const CONFIDENCE_THRESHOLD = 0.6;
-        const CLASSES = ['makan', 'idle', 'hallo']; // Sesuaikan dengan output os.listdir('dataset')
+        const CLASSES = ['aku', 'apa', 'apa kabar', 'asal', 'bagaimana', 'bagus', 'baik', 'banyak', 'berapa', 'berat', 'bersih', 'besar', 'buruk', 'cantik', 'cepat', 'dari mana', 'dengar', 'di mana', 'dia', 'ganteng', 'hallo', 'idle', 'jahat', 'jelek', 'kaget', 'kalian', 'kamu', 'kapan', 'ke', 'ke mana', 'kecewa', 'kecil', 'kenapa', 'kesal', 'kita', 'kotor', 'kuat', 'listrik', 'macet', 'malu', 'mana', 'marah', 'menyakitkan', 'nama', 'pelan', 'pergi', 'perkenalkan', 'perumahan', 'pintar', 'ramah', 'rapih', 'rendah', 'ringan', 'rumah', 'sampai jumpa lagi', 'saya', 'sedang apa', 'sedih', 'sedikit', 'senang', 'siapa', 'tanya', 'tebal', 'teman', 'tersinggung', 'tinggi', 'tipis'];
 
         // Stabilizer configuration
-        const SEQUENCE_LENGTH = 30; // LSTM requires exactly 30 frames
+        const SEQUENCE_LENGTH = 45; // LSTM requires exactly 45 frames
+        const REQUIRED_CONSECUTIVE_FRAMES = 10; // Butuh 10 frame berturut-turut
         
         let sequence = [];
         let sentenceList = [];
         let lastDetectedLabel = null;
         let model;
+        
+        // JS Hold Buffer untuk Anti-Kedip
+        let lastLh = null;
+        let lhMissed = 0;
+        let lastRh = null;
+        let rhMissed = 0;
+
+        // Stabilizer state
+        let predictionHistory = []; // Untuk kestabilan
+        let frameCount = 0;
 
         const videoElement = document.getElementById('input_video');
         const canvasElement = document.getElementById('output_canvas');
@@ -156,36 +175,64 @@
             }
         }
 
-        // Feature extraction (258 points) matches python script
+        // Feature extraction (218 points) matches python script
         function extractKeypoints(results) {
-            let pose = new Array(33 * 4).fill(0);
+            let anchor_x = 0, anchor_y = 0, anchor_z = 0;
+            if (results.poseLandmarks && results.poseLandmarks.length > 0) {
+                anchor_x = results.poseLandmarks[0].x;
+                anchor_y = results.poseLandmarks[0].y;
+                anchor_z = results.poseLandmarks[0].z;
+            }
+
+            let pose = new Array(23 * 4).fill(0);
             if (results.poseLandmarks) {
-                for (let i = 0; i < results.poseLandmarks.length; i++) {
+                for (let i = 0; i < 23; i++) {
                     const res = results.poseLandmarks[i];
-                    pose[i * 4] = res.x;
-                    pose[i * 4 + 1] = res.y;
-                    pose[i * 4 + 2] = res.z;
+                    pose[i * 4] = res.x - anchor_x;
+                    pose[i * 4 + 1] = res.y - anchor_y;
+                    pose[i * 4 + 2] = res.z - anchor_z;
                     pose[i * 4 + 3] = res.visibility !== undefined ? res.visibility : 0;
                 }
             }
 
-            let lh = new Array(21 * 3).fill(0);
+            // Update Hold Buffer
             if (results.leftHandLandmarks) {
-                for (let i = 0; i < results.leftHandLandmarks.length; i++) {
-                    const res = results.leftHandLandmarks[i];
-                    lh[i * 3] = res.x;
-                    lh[i * 3 + 1] = res.y;
-                    lh[i * 3 + 2] = res.z;
+                lastLh = results.leftHandLandmarks;
+                lhMissed = 0;
+            } else {
+                lhMissed++;
+                if (lhMissed > 5) lastLh = null;
+            }
+
+            if (results.rightHandLandmarks) {
+                lastRh = results.rightHandLandmarks;
+                rhMissed = 0;
+            } else {
+                rhMissed++;
+                if (rhMissed > 5) lastRh = null;
+            }
+
+            const lhSource = results.leftHandLandmarks || lastLh;
+            let lh = new Array(21 * 3).fill(0);
+            if (lhSource && lhSource.length > 0) {
+                const lh_anchor = lhSource[0];
+                for (let i = 0; i < lhSource.length; i++) {
+                    const res = lhSource[i];
+                    lh[i * 3] = res.x - lh_anchor.x;
+                    lh[i * 3 + 1] = res.y - lh_anchor.y;
+                    lh[i * 3 + 2] = res.z - lh_anchor.z;
                 }
             }
 
+            const rhSource = results.rightHandLandmarks || lastRh;
             let rh = new Array(21 * 3).fill(0);
-            if (results.rightHandLandmarks) {
-                for (let i = 0; i < results.rightHandLandmarks.length; i++) {
-                    const res = results.rightHandLandmarks[i];
-                    rh[i * 3] = res.x;
-                    rh[i * 3 + 1] = res.y;
-                    rh[i * 3 + 2] = res.z;
+            if (rhSource && rhSource.length > 0) {
+                const rh_anchor = rhSource[0];
+                for (let i = 0; i < rhSource.length; i++) {
+                    const res = rhSource[i];
+                    rh[i * 3] = res.x - rh_anchor.x;
+                    rh[i * 3 + 1] = res.y - rh_anchor.y;
+                    rh[i * 3 + 2] = res.z - rh_anchor.z;
                 }
             }
 
@@ -193,34 +240,47 @@
         }
 
         function onResults(results) {
+            frameCount++;
             canvasCtx.save();
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+            // Sembunyikan titik pose bawah (kaki)
+            if (results.poseLandmarks) {
+                for (let i = 23; i < results.poseLandmarks.length; i++) {
+                    results.poseLandmarks[i].visibility = 0;
+                }
+            }
+
+            const lhSource = results.leftHandLandmarks || lastLh;
+            const rhSource = results.rightHandLandmarks || lastRh;
 
             // Draw Landmarks
             if (results.poseLandmarks) {
                 drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
                 drawLandmarks(canvasCtx, results.poseLandmarks, {color: '#ff4d4d', lineWidth: 3, radius: 4});
             }
-            if (results.leftHandLandmarks) {
-                drawConnectors(canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
-                drawLandmarks(canvasCtx, results.leftHandLandmarks, {color: '#ff4d4d', lineWidth: 3, radius: 4});
+            if (lhSource) {
+                drawConnectors(canvasCtx, lhSource, HAND_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
+                drawLandmarks(canvasCtx, lhSource, {color: '#ff4d4d', lineWidth: 3, radius: 4});
             }
-            if (results.rightHandLandmarks) {
-                drawConnectors(canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
-                drawLandmarks(canvasCtx, results.rightHandLandmarks, {color: '#ff4d4d', lineWidth: 3, radius: 4});
+            if (rhSource) {
+                drawConnectors(canvasCtx, rhSource, HAND_CONNECTIONS, {color: '#2d2d2d', lineWidth: 5});
+                drawLandmarks(canvasCtx, rhSource, {color: '#ff4d4d', lineWidth: 3, radius: 4});
             }
 
             const keypoints = extractKeypoints(results);
             sequence.push(keypoints);
             
-            // Keep length to 30
+            // Keep length to SEQUENCE_LENGTH
             if (sequence.length > SEQUENCE_LENGTH) {
                 sequence.shift();
             }
 
             if (sequence.length === SEQUENCE_LENGTH) {
-                predict([...sequence]); // Clone sequence for prediction
+                if (frameCount % 3 === 0) {
+                    predict([...sequence]); // Clone sequence for prediction
+                }
             } else {
                 statusIndicator.innerText = `Menyiapkan ${sequence.length}/${SEQUENCE_LENGTH}...`;
                 statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-postit text-pencil shadow-sm transform rotate-1";
@@ -232,13 +292,14 @@
         async function predict(inputSequence) {
             if (!model) return;
 
-            // sequence is [30, 258]
-            const inputTensor = tf.tensor3d([inputSequence], [1, 30, 258]);
+            // sequence is [45, 218]
+            const inputTensor = tf.tensor([inputSequence]);
 
             const prediction = model.predict(inputTensor);
             const result = await prediction.data(); 
 
             inputTensor.dispose();
+            prediction.dispose();
 
             let maxScore = -1;
             let maxIndex = -1;
@@ -253,31 +314,54 @@
             const rawLabel = CLASSES[maxIndex];
             const confidencePct = (maxScore * 100).toFixed(1);
 
-            if (maxScore > CONFIDENCE_THRESHOLD) {
+            // Logika Respons Stabil: Menyimpan tebakan terakhir
+            predictionHistory.push(maxIndex);
+            if (predictionHistory.length > REQUIRED_CONSECUTIVE_FRAMES) {
+                predictionHistory.shift();
+            }
+
+            let isStable = predictionHistory.every(val => val === maxIndex) && predictionHistory.length === REQUIRED_CONSECUTIVE_FRAMES;
+
+            // Beri threshold khusus yang lebih tinggi (90%) untuk kata 'ke' agar tidak bocor
+            let currentThreshold = (rawLabel === 'ke') ? 0.90 : 0.75;
+
+            if (maxScore > currentThreshold) {
                 predictionText.innerText = rawLabel;
                 predictionText.classList.add('text-correction', 'scale-110');
                 predictionText.classList.remove('text-pencil', 'scale-100');
                 confidenceText.innerText = `Confidence: ${confidencePct}%`;
-
-                statusIndicator.innerText = "Terkonfirmasi";
-                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam font-bold bg-pencil text-white shadow-sm transform -rotate-2 hover-jiggle scale-110 transition";
-
-                if (rawLabel !== lastDetectedLabel) {
-                    lastDetectedLabel = rawLabel;
-                    
-                    if (rawLabel !== 'idle') {
-                        sentenceList.push(rawLabel);
-                        updateSentenceUI();
-                    }
-                }
             } else {
                 predictionText.innerText = "...";
                 predictionText.classList.remove('text-correction', 'scale-110');
                 predictionText.classList.add('text-pencil', 'scale-100');
                 confidenceText.innerText = `Low Confidence`;
+            }
 
-                statusIndicator.innerText = "Buram";
-                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-gray-100 text-pencil shadow-sm transform rotate-1 opacity-80";
+            if (isStable) {
+                if (maxScore > currentThreshold) {
+                    statusIndicator.innerText = "Terkonfirmasi";
+                    statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-pencil rounded-wobbly text-lg font-kalam font-bold bg-pencil text-white shadow-sm transform -rotate-2 hover-jiggle scale-110 transition";
+
+                    if (rawLabel !== lastDetectedLabel) {
+                        lastDetectedLabel = rawLabel;
+                        
+                        if (rawLabel !== 'idle') {
+                            sentenceList.push(rawLabel);
+                            speakWord(rawLabel);
+                            updateSentenceUI();
+                        }
+
+                        // Kosongkan history agar tidak ada sisa tebakan saat tangan sedang diturunkan
+                        predictionHistory = [];
+                    }
+                } else {
+                    statusIndicator.innerText = "Buram";
+                    statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-gray-100 text-pencil shadow-sm transform rotate-1 opacity-80";
+                }
+            } else {
+                let currentCount = predictionHistory.filter(val => val === maxIndex).length;
+                statusIndicator.innerText = `Menunggu Stabil (${currentCount}/${REQUIRED_CONSECUTIVE_FRAMES})`;
+                statusIndicator.className = "inline-block px-4 py-1 border-[3px] border-dashed border-pencil rounded-wobbly text-lg font-kalam font-bold bg-postit text-pencil shadow-sm transform rotate-1";
             }
         }
 
@@ -311,13 +395,11 @@
             updateSentenceUI();
         }
 
-        function speakSentence() {
+        function speakWord(text) {
             if ('speechSynthesis' in window) {
-                if (sentenceList.length === 0) return;
                 window.speechSynthesis.cancel();
                 
-                let textToSpeak = sentenceList.join(" ");
-                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'id-ID'; 
                 utterance.rate = 1.0;
                 utterance.pitch = 1.0;
@@ -333,6 +415,14 @@
                 }
 
                 window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function speakSentence() {
+            if ('speechSynthesis' in window) {
+                if (sentenceList.length === 0) return;
+                let textToSpeak = sentenceList.join(" ");
+                speakWord(textToSpeak);
             } else {
                 alert("Browser anda tidak mendukung Text-to-Speech");
             }

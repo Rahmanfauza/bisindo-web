@@ -70,12 +70,13 @@
 <body class="bg-paper text-pencil font-patrick overflow-x-hidden">
 
     <!-- ===== HEADER / NAVBAR ===== -->
+    @if(!View::hasSection('hide_navbar'))
     <header class="bg-paper border-b-4 border-pencil shadow-wobbly sticky top-0 z-50">
         <nav class="w-full px-4 py-3">
             <div class="flex justify-center items-center gap-6">
 
-                <a href="{{ route('dashboard') }}"
-                    class="flex flex-col items-center {{ Route::is('dashboard') ? 'text-correction transform -rotate-2' : 'text-pencil' }} text-sm hover:text-correction hover-jiggle transition group">
+                <a href="{{ route('home') }}"
+                    class="flex flex-col items-center {{ Route::is('home') ? 'text-correction transform -rotate-2' : 'text-pencil' }} text-sm hover:text-correction hover-jiggle transition group">
                     <i class="fas fa-home text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
                     <span class="font-kalam font-bold text-lg">Beranda</span>
                 </a>
@@ -85,22 +86,10 @@
                     <i class="fas fa-language text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
                     <span class="font-kalam font-bold text-lg">Terjemahkan</span>
                 </a>
-
-                <a href="{{ route('dictionary') }}"
-                    class="flex flex-col items-center {{ Route::is('dictionary') ? 'text-correction transform -rotate-1' : 'text-pencil' }} text-sm hover:text-correction hover-jiggle transition group">
-                    <i class="fas fa-book text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
-                    <span class="font-kalam font-bold text-lg">Kamus</span>
-                </a>
-
-                <!-- Profile Dropdown -->
-                <a href="{{ route('profile') }}" id="profileMenuBtn"
-                    class="flex flex-col items-center {{ Route::is('profile') ? 'text-correction transform rotate-2' : 'text-pencil' }} text-sm focus:outline-none hover:text-correction hover-jiggle transition group">
-                    <i class="fas fa-user text-2xl mb-1 group-hover:scale-110 transition-transform"></i>
-                    <span class="font-kalam font-bold text-lg">Profil</span>
-                </a>
             </div>
         </nav>
     </header>
+    @endif
 
 
     <!-- ===== MAIN CONTENT ===== -->
@@ -115,7 +104,7 @@
             style="border-radius: 2px 2px 3px 2px / 255px 15px 225px 15px;"></div>
 
         <div class="max-w-7xl mx-auto px-6 text-center transform -rotate-1">
-            <p class="font-patrick text-lg mb-2 font-bold opacity-80">&copy; 2023 IsyaraLearn. Hak cipta dilindungi.</p>
+            <p class="font-patrick text-lg mb-2 font-bold opacity-80">&copy; 2026 IsyaraLearn. Hak cipta dilindungi.</p>
             <p
                 class="text-correction font-kalam text-2xl underline decoration-wavy underline-offset-4 leading-relaxed mt-2">
                 "Tangan Bicara, Hati Mendengar"</p>

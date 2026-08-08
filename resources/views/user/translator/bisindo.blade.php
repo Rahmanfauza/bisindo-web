@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Abjad Bisindo - Penerjemah Isyarat')
+@section('hide_navbar', true)
 
 @section('content')
 <div class="min-h-screen bg-paper text-pencil pb-20 font-patrick relative overflow-hidden">
@@ -11,42 +12,47 @@
         </svg>
     </div>
 
-    <div class="max-w-4xl mx-auto px-4 pt-8 relative z-10">
+    <div class="w-full px-4 lg:px-8 pt-8 relative z-10">
 
         <!-- Header Section -->
-        <div class="mb-10 text-center transform -rotate-1">
+        <div class="mb-8 text-center transform -rotate-1">
             <h1 class="text-4xl font-bold text-pencil mb-2 font-kalam">Abjad Bisindo</h1>
             <p class="text-pencil leading-relaxed text-lg bg-gray-100 p-2 border-2 border-dashed border-pencil rounded-wobbly inline-block transform rotate-1">
                 Arahkan kamera ke tangan Anda untuk menerjemahkan abjad Bisindo.
             </p>
             <br>
             <a href="{{ route('translator') }}"
-                class="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-white border-[3px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle text-pencil font-bold text-xl font-kalam transition cursor-pointer active:shadow-none active:translate-y-1 active:-rotate-2">
+                class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-white border-[3px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle text-pencil font-bold text-xl font-kalam transition cursor-pointer active:shadow-none active:translate-y-1 active:-rotate-2">
                 <i class="fas fa-arrow-left text-correction"></i> Kembali ke Menu
             </a>
         </div>
 
         <!-- Detection Container -->
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-6 w-full">
 
-            <!-- Video/Canvas Container -->
-            <div class="relative w-[640px] h-[480px] bg-paper rounded-wobbly-lg overflow-hidden border-[6px] border-pencil shadow-wobbly-lg mb-8 max-w-full transform rotate-1 transition">
-                <video id="input_video"
-                    class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-cover"></video>
-                <canvas id="output_canvas" width="640" height="480"
-                    class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-contain"></canvas>
+            <!-- Left Column: Camera & Status -->
+            <div class="w-full lg:w-1/2 flex flex-col items-center">
+                <!-- Video/Canvas Container -->
+                <div class="relative w-full aspect-[4/3] bg-paper rounded-wobbly-lg overflow-hidden border-[6px] border-pencil shadow-wobbly-lg mb-4 transform rotate-1 transition">
+                    <video id="input_video"
+                        class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-cover"></video>
+                    <canvas id="output_canvas" width="640" height="480"
+                        class="absolute top-0 left-0 w-full h-full transform -scale-x-100 object-contain"></canvas>
+                </div>
+
+                <!-- Status Indicator -->
+                <div id="status"
+                    class="px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full shadow-wobbly bg-gray-200 text-pencil transform -rotate-1">
+                    Menyala...
+                </div>
             </div>
 
-            <!-- Status Indicator -->
-            <div id="status"
-                class="mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-gray-200 text-pencil transform -rotate-1">
-                Menyala...
-            </div>
-
-            <!-- Prediction Result -->
-            <div id="prediction-container"
-                class="bg-white p-6 md:p-8 border-[4px] border-pencil rounded-wobbly-lg shadow-wobbly-lg w-full max-w-[640px] text-center mb-8 transition-all transform rotate-1 relative">
-                <!-- Session Tape Decoration -->
+            <!-- Right Column: Prediction Result -->
+            <div class="w-full lg:w-1/2 flex flex-col">
+                <!-- Prediction Result -->
+                <div id="prediction-container"
+                    class="bg-white p-6 md:p-8 border-[4px] border-pencil rounded-wobbly-lg shadow-wobbly-lg w-full flex-1 flex flex-col text-center transition-all transform rotate-1 relative">
+                    <!-- Session Tape Decoration -->
                 <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-8 bg-gray-200 border-2 border-gray-300 transform -rotate-2 z-20 shadow-sm opacity-80" style="border-radius: 2px 2px 3px 2px / 255px 15px 225px 15px;"></div>
                 
                 <div class="flex justify-between items-center mb-6">
@@ -68,12 +74,12 @@
                 <div class="h-1 bg-pencil w-full my-6 rounded-wobbly transform -rotate-1"></div>
 
                 <!-- Sentence Construction -->
-                <div class="text-left mt-6">
+                <div class="text-left mt-6 flex-1 flex flex-col">
                     <p class="text-2xl text-pencil font-kalam font-bold mb-4 flex items-center gap-2">
                         <i class="fas fa-comment-dots text-correction transform -rotate-12 text-3xl"></i> Kalimat 
                     </p>
                     <div
-                        class="bg-paper border-[3px] border-pencil rounded-wobbly p-5 min-h-[100px] flex flex-col justify-between shadow-inner transform -rotate-1">
+                        class="bg-paper border-[3px] border-pencil rounded-wobbly p-5 min-h-[100px] flex-1 flex flex-col justify-between shadow-inner transform -rotate-1">
                         <p id="sentence-text" class="text-2xl text-pencil font-kalam font-bold break-words leading-relaxed tracking-wide min-h-[40px]">
                             <span class="text-gray-400 italic font-patrick font-normal text-lg">Belum ada kata...</span>
                         </p>
@@ -102,6 +108,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
         </div>
@@ -374,6 +381,28 @@
             return Object.keys(hashmap).reduce((a, b) => hashmap[a] > hashmap[b] ? a : b);
         }
 
+        function speakChar(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID'; 
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                
+                const voices = window.speechSynthesis.getVoices();
+                const idVoices = voices.filter(v => v.lang.includes('id'));
+                const maleVoice = idVoices.find(v => (v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female')) || v.name.includes('Andika') || v.name.toLowerCase().includes('pria') || v.name.toLowerCase().includes('laki'));
+                
+                if (maleVoice) {
+                    utterance.voice = maleVoice;
+                } else if (idVoices.length > 0) {
+                    utterance.voice = idVoices[0];
+                }
+
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
         function commitCharToSentence(char) {
             // Logic: Append character. 
             // Optional: Prevent duplicate Double-Letters if needed, but for names/words double letters exist.
@@ -384,14 +413,22 @@
 
             sentence += char;
             updateSentenceUI();
+            speakChar(char);
 
             // Optional: Small haptic/sound feedback could go here
         }
 
         function addSpace() {
             if (sentence.length > 0 && !sentence.endsWith(" ")) {
+                let words = sentence.trim().split(" ");
+                let lastWord = words[words.length - 1];
+
                 sentence += " ";
                 updateSentenceUI();
+
+                if (lastWord) {
+                    speakChar(lastWord);
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Terjemahkan')
+@section('hide_navbar', true)
 
 @section('content')
     <div class="min-h-screen bg-paper text-pencil pb-20 font-patrick relative overflow-hidden">
@@ -24,6 +25,11 @@
                 <p class="text-pencil leading-relaxed text-xl bg-gray-100 p-2 border-2 border-dashed border-pencil rounded-wobbly transform rotate-1 inline-block">
                     Menu ini adalah penerjemah bahasa isyarat menggunakan kamera. Silakan pilih kategori di bawah ini untuk memulai.
                 </p>
+                <br>
+                <a href="{{ route('home') }}"
+                    class="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-white border-[3px] border-pencil rounded-wobbly shadow-wobbly-hover hover-jiggle text-pencil font-bold text-xl font-kalam transition cursor-pointer active:shadow-none active:translate-y-1 active:-rotate-2">
+                    <i class="fas fa-arrow-left text-correction"></i> Kembali ke Beranda
+                </a>
             </div>
 
             <!-- Menu Cards -->

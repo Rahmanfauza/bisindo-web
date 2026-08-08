@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $isLoggedIn = Auth::check();
-        
         $navItems = ['Home', 'Services', 'About', 'Contact'];
         
         $features = [
@@ -116,6 +113,6 @@ class HomeController extends Controller
             ]
         ];
 
-        return view('home', compact('isLoggedIn', 'navItems', 'features', 'audienceCards', 'faqs'));
+        return view('home', compact('navItems', 'features', 'audienceCards', 'faqs'));
     }
 }

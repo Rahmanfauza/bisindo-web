@@ -163,7 +163,7 @@
             try {
                 statusDiv.innerText = 'Loading model...';
                 // URL Model Bisindo Kata
-                model = await tf.loadLayersModel('/models/kata_bisindo/model.json');
+                model = await tf.loadLayersModel('/models/kata_bisindo/model.json?v={{ time() }}');
 
                 statusDiv.className = 'mb-6 px-6 py-3 border-[3px] border-pencil rounded-wobbly font-kalam text-xl font-bold text-center w-full max-w-[600px] shadow-wobbly bg-postit text-pencil transform -rotate-1';
                 statusDiv.innerText = 'Model loaded! Starting camera...';

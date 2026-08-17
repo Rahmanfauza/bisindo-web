@@ -1,0 +1,8 @@
+/node_modules
+/vendor
+/public/build
+/public/hot
+/.env
+/.git
+/.vscode
+/storage/*.key
